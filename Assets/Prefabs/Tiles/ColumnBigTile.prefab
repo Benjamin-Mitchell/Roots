@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: -9193656576971455849}
   m_Layer: 0
   m_Name: ColumnBigTile
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,7 +83,6 @@ MonoBehaviour:
   spawnables:
   - {fileID: 1551638528594176594, guid: abdd20a00f81d9740924c04d78d94704, type: 3}
   canSpawnEnemies: 0
-  enemiesToSpawn: []
 --- !u!1001 &5550621242064030301
 PrefabInstance:
   m_ObjectHideFlags: 0
