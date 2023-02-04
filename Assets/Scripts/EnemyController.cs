@@ -36,6 +36,12 @@ public class EnemyController : Enemy
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
     private void Patrolling()
     {
         if (!walkPointSet) SearchWalkPoint();
@@ -70,12 +76,12 @@ public class EnemyController : Enemy
     }
     private void AttackPlayer()
     {
-        agent.SetDestination(player.position);
+        ChasePlayer();
         transform.LookAt(player);
 
         if(!alreadyAttacked)
         {
-            //ATTACK CODE HERE
+            PerformAttack();
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -89,7 +95,7 @@ public class EnemyController : Enemy
 
     public override void PerformAttack()
     {
-        throw new System.NotImplementedException();
+        //ATTACK
     }
 
     public override void TakeDamage(int amount)

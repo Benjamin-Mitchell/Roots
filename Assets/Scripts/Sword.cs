@@ -12,7 +12,7 @@ public class Sword : Weapon
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
 
-    public override void PerformAttack()
+    public override void PerformAttack(Vector3? direction = null)
     {
         if (isAttacking) return;
         isAttacking = true;
@@ -55,12 +55,6 @@ public class Sword : Weapon
             }
         }
     }
-
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.tag != "Enemy" || !isAttacking) return;
-    //    other.GetComponent<Enemy>().TakeDamage(damage);
-    //}
 
     private void OnDrawGizmosSelected()
     {
