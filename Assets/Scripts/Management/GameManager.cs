@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         //StartLevel();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<CharacterController>();
+        StartLevel();
 
         if(intro == true)
 		{
