@@ -5,11 +5,12 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Shurikan : MonoBehaviour
 {
-    public int damage;
+    public int damage; 
+    public string enemyTag;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Enemy")
+        if(other.tag == enemyTag)
         {
             other.GetComponent<Character>().TakeDamage(damage);
             Destroy(gameObject);

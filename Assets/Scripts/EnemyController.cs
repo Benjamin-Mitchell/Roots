@@ -20,6 +20,8 @@ public class EnemyController : Character
 
     private int currentHealth;
     private Rigidbody rb;
+    public Weapon weapon;
+    public bool isRanged;
 
     private void Awake()
     {
@@ -37,6 +39,12 @@ public class EnemyController : Character
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
+    }
+
+
+    public override void PerformAttack()
+    {
+        weapon.PerformAttack(player.position);
     }
 
     private void OnDrawGizmosSelected()
@@ -81,7 +89,7 @@ public class EnemyController : Character
     private void AttackPlayer()
     {
 
-        if(!alreadyAttacked)
+        if (!alreadyAttacked)
         {
             ChasePlayer();
             PerformAttack();
@@ -89,20 +97,20 @@ public class EnemyController : Character
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
-        else
+        else if (!isRanged)
         {
             agent.SetDestination(transform.position);
         }
+        else
+        {
+            ChasePlayer();
+        }
+
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
-    }
-
-    public override void PerformAttack()
-    {
-        //ATTACK
     }
 
     public override void TakeDamage(int amount)
