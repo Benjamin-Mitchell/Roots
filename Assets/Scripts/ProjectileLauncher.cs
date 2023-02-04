@@ -10,14 +10,13 @@ public class ProjectileLauncher : Weapon
     public float launchVelocity = 700f;
     public float attackTime;
 
-    private bool isAttacking;
     private Transform player;
     private CharacterController playerController;
 
     private void Start()
     {
-        player = GameObject.Find("Player").transform;
-        playerController = GameObject.Find("Player").GetComponent<CharacterController>();
+        player = GameObject.Find("CharacterPrefab").transform;
+        playerController = GameObject.Find("CharacterPrefab").GetComponent<CharacterController>();
     }
     public override void PerformAttack(Vector3? direction)
     {
@@ -26,6 +25,7 @@ public class ProjectileLauncher : Weapon
         GameObject ball = Instantiate(projectile, transform.position, player.rotation);
 
         var velocity = (direction.Value - transform.position).normalized * launchVelocity + playerController.velocity;
+        velocity.y = 0;
         ball.GetComponent<Rigidbody>().velocity = velocity;
         StartCoroutine(nameof(FinishAttack));
     }

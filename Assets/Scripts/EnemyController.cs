@@ -30,7 +30,7 @@ public class EnemyController : Character
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        player = GameObject.Find("Player").transform;
+        player = GameObject.Find("CharacterPrefab").transform;
         agent = GetComponent<NavMeshAgent>();
         currentHealth = maxHealth;
     }
@@ -142,7 +142,10 @@ public class EnemyController : Character
 
     public override void Die()
     {
-        roomGenerator.aliveEnemies.Remove(this);
+        if (roomGenerator != null)
+        {
+            roomGenerator.aliveEnemies.Remove(this);
+        }
         Destroy(gameObject);
     }
 
