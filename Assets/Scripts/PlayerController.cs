@@ -61,6 +61,12 @@ public class PlayerController : Character
     }
     private void Update()
     {
+        if (Input.GetButtonDown("Jump"))
+        {
+            moveSpeed = 200f;
+        }
+        else { moveSpeed = 7f; }
+
         moveDirection = (mainCamera.transform.forward * Input.GetAxis("Vertical")) + (mainCamera.transform.right * Input.GetAxis("Horizontal"));
         moveDirection = moveDirection.normalized * moveSpeed;
 
