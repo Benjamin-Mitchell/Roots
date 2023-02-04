@@ -42,10 +42,9 @@ public class GameManager : MonoBehaviour
         //StartLevel();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<CharacterController>();
-        surface = GameObject.FindGameObjectWithTag("Nav").GetComponent<NavMeshSurface>();
         StartLevel();
 
-        if(intro == true)
+        if(intro)
 		{
             StartCoroutine(WaitToContinue(introLength));
 		}
@@ -64,7 +63,12 @@ public class GameManager : MonoBehaviour
         player.transform.position = spawn.transform.position;
         playerController.enabled = true;
 
-        surface.BuildNavMesh();
+        GameObject temp = GameObject.FindGameObjectWithTag("Nav");
+        if (temp != null)
+        {
+            surface = temp.GetComponent<NavMeshSurface>();
+            surface.BuildNavMesh();
+        }
 	}
 
     public bool PlayerReachedEnd()
@@ -83,6 +87,7 @@ public class GameManager : MonoBehaviour
 	{
         yield return new WaitForSeconds(secs);
         PlayerReachedEnd();
+        intro = false;
 	}
 
     private IEnumerator LoadLevel(string sceneName, int index)

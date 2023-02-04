@@ -7,6 +7,9 @@ public class TileVariety : MonoBehaviour
     public bool canRotate = false;
     public List<GameObject> spawnLocations = new List<GameObject>();
 
+    public bool canSpawnEnemies = false;
+    public List<GameObject> enemiesToSpawn;
+
     // Start is called before the first frame update
     void Start()
     {
