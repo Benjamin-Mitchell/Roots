@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Character
 {
     public float moveSpeed;
     public float jumpForce;
@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
 
     private Camera mainCamera;
+    private int currentHealth;
 
 	private void Awake()
 	{
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         mainCamera = FindObjectOfType<Camera>();
         lastRotation = transform.rotation;
+        currentHealth = maxHealth;
     }
 
     // plane degined by p (p.xyz must be normalized)
@@ -68,23 +70,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
         {
-            hasMoved = true;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float t = plaIntersect(ray.origin - new Vector3(0.0f, transform.position.y, 0.0f), ray.direction, new Vector4(0.0f, 1.0f, 0.0f, 0.0f));
-
-            Vector3 hitPoint = ray.origin + ray.direction * t;
-
-            transform.LookAt(hitPoint, Vector3.up);
-            lastRotation = transform.rotation;
-
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                meleeWeapon.PerformAttack();
-            }
-            else
-            {
-                rangedWeapon.PerformAttack(hitPoint);
-            }
+            PerformAttack();
         }
         else if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
@@ -100,18 +86,46 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    float GetAngle(Vector3 a)
+    public override void Knockback(Vector3 direction)
     {
-        var angle = Mathf.Atan(a.x / a.y) * Mathf.Rad2Deg;
-        if (a.y < 0) angle += 180;
-        return angle;
-    }
-    public void Knockback(Vector3 direction)
-    {
-        knockBackCounter = knockBackTime;
-
-        moveDirection = direction * knockBackForce;
-        moveDirection.y = knockBackForce;
+        //knockBackCounter = knockBackTime;
+        //moveDirection = direction * knockBackForce;
+        //moveDirection.y = knockBackForce;
+        //controller.Move(moveDirection * Time.deltaTime);
     }
 
+    public override void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+        if (currentHealth < 0)
+        {
+            Die();
+        }
+    }
+
+    public override void PerformAttack()
+    {
+        hasMoved = true;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float t = plaIntersect(ray.origin - new Vector3(0.0f, transform.position.y, 0.0f), ray.direction, new Vector4(0.0f, 1.0f, 0.0f, 0.0f));
+
+        Vector3 hitPoint = ray.origin + ray.direction * t;
+
+        transform.LookAt(hitPoint, Vector3.up);
+        lastRotation = transform.rotation;
+
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            meleeWeapon.PerformAttack();
+        }
+        else
+        {
+            rangedWeapon.PerformAttack(hitPoint);
+        }
+    }
+
+    public override void Die()
+    {
+        //Die
+    }
 }

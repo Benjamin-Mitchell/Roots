@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5724686472136452743}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 5724686472523089794}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -165,17 +165,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf0f220d27c5f942bcd51edd9ddd9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  maxHealth: 10
+  moveSpeed: 7
   jumpForce: 75
   controller: {fileID: 5724686472523089807}
   gravityScale: 1
   rotateSpeed: 0
   knockBackForce: 30
   knockBackTime: 0.25
-  weapons:
-  - {fileID: 5724686473039833309}
-  - {fileID: 5724686474065572219}
-  selectedWeapon: 0
+  meleeWeapon: {fileID: 5724686473039833309}
+  rangedWeapon: {fileID: 5724686474065572219}
+  shield: {fileID: 0}
 --- !u!1 &5724686473983646185
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 5724686473983646101}
   - component: {fileID: 5724686473983646100}
   - component: {fileID: 5724686473983646187}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ PrefabInstance:
     - target: {fileID: 6930501082966886414, guid: e78b63f455102d146aa87462fbd7ab85,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6930501082966886415, guid: e78b63f455102d146aa87462fbd7ab85,
         type: 3}
@@ -382,6 +382,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProjectileLauncher
       objectReference: {fileID: 0}
+    - target: {fileID: 8333302426286923468, guid: 363be1377701a354a98043e6eee7f34c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8333302426286923470, guid: 363be1377701a354a98043e6eee7f34c,
         type: 3}
       propertyPath: attackTime
@@ -400,7 +405,7 @@ PrefabInstance:
     - target: {fileID: 8333302426286923471, guid: 363be1377701a354a98043e6eee7f34c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.025
       objectReference: {fileID: 0}
     - target: {fileID: 8333302426286923471, guid: 363be1377701a354a98043e6eee7f34c,
         type: 3}

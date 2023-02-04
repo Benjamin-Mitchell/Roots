@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.VisualScripting.Member;
+using static UnityEngine.GraphicsBuffer;
 
 public class ProjectileLauncher : Weapon
 {
@@ -25,7 +27,7 @@ public class ProjectileLauncher : Weapon
         isAttacking = true;
         GameObject ball = Instantiate(projectile, transform.position, player.rotation);
 
-        var velocity = (player.forward * launchVelocity) + playerController.velocity;
+        var velocity = (direction.Value - transform.position).normalized * launchVelocity + playerController.velocity;
         ball.GetComponent<Rigidbody>().velocity = velocity;
         StartCoroutine(nameof(FinishAttack));
     }
