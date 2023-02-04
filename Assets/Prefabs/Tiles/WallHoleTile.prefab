@@ -82,6 +82,10 @@ MonoBehaviour:
   spawnLocations:
   - {fileID: 3797693218485069191}
   - {fileID: 5583663744140989487}
+  spawnables:
+  - {fileID: 1551638528594176594, guid: abdd20a00f81d9740924c04d78d94704, type: 3}
+  canSpawnEnemies: 0
+  enemiesToSpawn: []
 --- !u!1 &5583663744140989487
 GameObject:
   m_ObjectHideFlags: 0
