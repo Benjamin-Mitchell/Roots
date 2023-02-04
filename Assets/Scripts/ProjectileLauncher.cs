@@ -13,12 +13,10 @@ public class ProjectileLauncher : Weapon
     private bool isAttacking;
     private Transform player;
     private CharacterController playerController;
-    //private Vector3 offset;
 
     private void Start()
     {
         player = GameObject.Find("Player").transform;
-        //offset = transform.position - player.position;
         playerController = GameObject.Find("Player").GetComponent<CharacterController>();
     }
     public override void PerformAttack(Vector3? direction)
