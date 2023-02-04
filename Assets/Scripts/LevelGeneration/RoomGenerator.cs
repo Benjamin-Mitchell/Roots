@@ -17,11 +17,30 @@ using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
-    public GameObject Spawnable;
+    //public GameObject Spawnable;
+
+    public int minEnemies;
+    public int maxEnemies;
+    public int numWaves;
+
+    private int wavesSpawned = 0;
+
+    private int updatedMin;
+
+    //TileVariety[] components;
+    GameObject[] enemySpawns;
+
+    public List<GameObject> enemiesToSpawn;
+
+    public List<EnemyController> aliveEnemies = new List<EnemyController>();
+
+    private GameObject end;
 
     // Start is called before the first frame update
     void Start()
     {
+        end = GameObject.Find("End");
+        end.SetActive(false);
         //pick some superset variations of the scene.
         foreach (Transform child in transform)
 		{
@@ -55,36 +74,89 @@ public class RoomGenerator : MonoBehaviour
         //now pick a bunch of tiles and variably add some foliag-ey type stuff.
 
         //This just gets active components
-        TileVariety[] components = GameObject.FindObjectsOfType<TileVariety>();
-        
-        foreach(TileVariety tile in components)
-		{
-            float f = Random.Range(0.0f, 1.0f);
+        //components = GameObject.FindObjectsOfType<TileVariety>();
 
-            if(f < 0.33f)
-			{
-                int n = Random.Range(0, tile.spawnLocations.Count);
+        //      foreach(TileVariety tile in components)
+        //{
+        //          {//Randomly spawn foliage and stuff
+        //              float f = Random.Range(0.0f, 1.0f);
 
-                List<int> check = new List<int>();
-                for(int i = 0; i < n; i++)
-				{
-                    int a = Random.Range(0, tile.spawnLocations.Count);
+        //              if (f < 0.33f)
+        //              {
+        //                  int n = Random.Range(0, tile.spawnLocations.Count);
 
-                    if (!check.Contains(a))
-                    {
-                        GameObject.Instantiate(Spawnable, tile.spawnLocations[a].transform.position, Quaternion.identity);
-                        check.Add(a);
-                    }
-                }
-			}
-		}
+        //                  List<int> check = new List<int>();
+        //                  for (int i = 0; i < n; i++)
+        //                  {
+        //                      int a = Random.Range(0, tile.spawnLocations.Count);
 
+        //                      //if (!check.Contains(a))
+        //                      //{
+        //                      //    GameObject temp = GameObject.Instantiate(Spawnable, tile.spawnLocations[a].transform.position, Quaternion.identity);
+        //                      //    temp.transform.SetParent(tile.gameObject.transform);
+        //                      //    check.Add(a);
+        //                      //}
+        //                  }
+        //              }
+        //          }
+        //}
+
+        //random chance for waves to increase here?
+
+        enemySpawns = GameObject.FindGameObjectsWithTag("EnemySpawnLocation");
+
+        updatedMin = minEnemies;
+        advanceWave();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+    private void advanceWave()
+	{
+        if(wavesSpawned >= numWaves)
+		{
+            EndRoom();
+            return;
+		}
+        int numToSpawn = updatedMin == maxEnemies ? maxEnemies + 1 : Random.Range(updatedMin, maxEnemies);
+
+        List<int> indicesUsed = new List<int>();
+
+        for(int i = 0; i < numToSpawn; i++)
+		{
+            int index;
+            do
+            {
+                index = Random.Range(0, enemySpawns.Length);
+            } while (indicesUsed.Contains(index));
+
+            indicesUsed.Add(index);
+
+            EnemyController temp = GameObject.Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)], enemySpawns[index].transform.position, Quaternion.identity).GetComponent<EnemyController>();
+            temp.SetRoomGeneration(this);
+            aliveEnemies.Add(temp);
+        }
+
+        wavesSpawned++;
+        StartCoroutine(waveTick());
+    }
+
+    private IEnumerator waveTick()
+	{
+        while(aliveEnemies.Count != 0)
+		{
+            yield return null;
+		}
+
+        advanceWave();
+	}
+
+    private void EndRoom()
+	{
+        end.SetActive(true);
     }
 }

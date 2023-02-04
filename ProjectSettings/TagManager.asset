@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - GameManager
   - Nav
+  - EnemySpawnLocation
+  - Wall
   layers:
   - Default
   - TransparentFX

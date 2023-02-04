@@ -20,13 +20,30 @@ public class EnemyController : Character
 
     private int currentHealth;
     private Rigidbody rb;
+    public Weapon weapon;
+    public float minDistance =2f;
+
+    private bool canAttack;
+
+    private RoomGenerator roomGenerator;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        player = GameObject.Find("Player").transform;
+        player = GameObject.Find("CharacterPrefab").transform;
         agent = GetComponent<NavMeshAgent>();
         currentHealth = maxHealth;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(nameof(AttackStartup));
+    }
+
+    private IEnumerator AttackStartup()
+    {
+        yield return new WaitForSeconds(2);
+        canAttack = true;
     }
 
     private void Update()
@@ -37,6 +54,12 @@ public class EnemyController : Character
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
+    }
+
+
+    public override void PerformAttack()
+    {
+        weapon.PerformAttack(player.position);
     }
 
     private void OnDrawGizmosSelected()
@@ -80,29 +103,27 @@ public class EnemyController : Character
     }
     private void AttackPlayer()
     {
-
-        if(!alreadyAttacked)
+        if (!alreadyAttacked && canAttack)
         {
-            ChasePlayer();
             PerformAttack();
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
+
+        if (Vector3.Distance(transform.position, player.position) > minDistance)
+        {
+            ChasePlayer();
+        }
         else
         {
-            agent.SetDestination(transform.position);
+            agent.velocity = Vector3.zero;
         }
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
-    }
-
-    public override void PerformAttack()
-    {
-        //ATTACK
     }
 
     public override void TakeDamage(int amount)
@@ -114,8 +135,17 @@ public class EnemyController : Character
         }
     }
 
+    public void SetRoomGeneration(RoomGenerator generator)
+	{
+        roomGenerator = generator;
+    }
+
     public override void Die()
     {
+        if (roomGenerator != null)
+        {
+            roomGenerator.aliveEnemies.Remove(this);
+        }
         Destroy(gameObject);
     }
 

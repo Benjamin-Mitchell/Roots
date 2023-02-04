@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 6271060315357988276}
   m_Layer: 0
   m_Name: WallBigTile
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,6 +113,9 @@ MonoBehaviour:
   spawnLocations:
   - {fileID: 3120579263759976392}
   - {fileID: 7667035261149930068}
+  spawnables:
+  - {fileID: 1551638528594176594, guid: abdd20a00f81d9740924c04d78d94704, type: 3}
+  canSpawnEnemies: 0
 --- !u!1001 &9030983317017772350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -194,6 +197,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wall_Big_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f76fc72820ea64f47bb9903bae1afe05,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f76fc72820ea64f47bb9903bae1afe05, type: 3}

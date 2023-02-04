@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 6305101405633793154}
   - component: {fileID: 6305101405633793155}
   - component: {fileID: 1595984035}
-  - component: {fileID: 57908866}
+  - component: {fileID: 6328036624872861195}
   m_Layer: 3
   m_Name: MeleeEnemy
   m_TagString: Enemy
@@ -227,8 +227,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 10
-  m_Acceleration: 5
+  m_Speed: 6
+  m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -239,7 +239,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &57908866
+--- !u!114 &6328036624872861195
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6305101405633793153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9beed70f0b2bed7448d00a01fb1a9829, type: 3}
+  m_Script: {fileID: 11500000, guid: b679ba522fbecef43b992b54cb863dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
@@ -263,7 +263,8 @@ MonoBehaviour:
   timeBetweenAttacks: 0.5
   sightRange: 20
   attackRange: 1.5
-  meleeWeapon: {fileID: 4012195243636650376}
+  weapon: {fileID: 4012195243636650376}
+  minDistance: 1.5
 --- !u!1 &6664160750561746267
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +371,7 @@ PrefabInstance:
     - target: {fileID: 6930501082966886415, guid: e78b63f455102d146aa87462fbd7ab85,
         type: 3}
       propertyPath: enemyLayers.m_Bits
-      value: 136
+      value: 128
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e78b63f455102d146aa87462fbd7ab85, type: 3}

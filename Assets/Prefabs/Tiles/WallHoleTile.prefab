@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: -3788862423800486475}
   m_Layer: 0
   m_Name: WallHoleTile
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,6 +82,9 @@ MonoBehaviour:
   spawnLocations:
   - {fileID: 3797693218485069191}
   - {fileID: 5583663744140989487}
+  spawnables:
+  - {fileID: 1551638528594176594, guid: abdd20a00f81d9740924c04d78d94704, type: 3}
+  canSpawnEnemies: 0
 --- !u!1 &5583663744140989487
 GameObject:
   m_ObjectHideFlags: 0
