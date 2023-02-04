@@ -21,7 +21,9 @@ public class EnemyController : Character
     private int currentHealth;
     private Rigidbody rb;
     public Weapon weapon;
-    public bool isRanged;
+    public float minDistance =2f;
+
+    private bool canAttack;
 
     private void Awake()
     {
@@ -29,6 +31,17 @@ public class EnemyController : Character
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         currentHealth = maxHealth;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(nameof(AttackStartup));
+    }
+
+    private IEnumerator AttackStartup()
+    {
+        yield return new WaitForSeconds(2);
+        canAttack = true;
     }
 
     private void Update()
@@ -88,24 +101,22 @@ public class EnemyController : Character
     }
     private void AttackPlayer()
     {
-
-        if (!alreadyAttacked)
+        if (!alreadyAttacked && canAttack)
         {
-            ChasePlayer();
             PerformAttack();
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
-        else if (!isRanged)
-        {
-            agent.SetDestination(transform.position);
-        }
-        else
+
+        if (Vector3.Distance(transform.position, player.position) > minDistance)
         {
             ChasePlayer();
         }
-
+        else
+        {
+            agent.velocity = Vector3.zero;
+        }
     }
 
     private void ResetAttack()
