@@ -17,9 +17,12 @@ using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
+    public GameObject Spawnable;
+
     // Start is called before the first frame update
     void Start()
     {
+        //pick some superset variations of the scene.
         foreach (Transform child in transform)
 		{
             if (child.name.Contains("SuperSet"))
@@ -48,7 +51,35 @@ public class RoomGenerator : MonoBehaviour
                 }
 			}
 		}
+
+        //now pick a bunch of tiles and variably add some foliag-ey type stuff.
+
+        //This just gets active components
+        TileVariety[] components = GameObject.FindObjectsOfType<TileVariety>();
         
+        foreach(TileVariety tile in components)
+		{
+            float f = Random.Range(0.0f, 1.0f);
+
+            if(f < 0.33f)
+			{
+                int n = Random.Range(0, tile.spawnLocations.Count);
+
+                List<int> check = new List<int>();
+                for(int i = 0; i < n; i++)
+				{
+                    int a = Random.Range(0, tile.spawnLocations.Count);
+
+                    if (!check.Contains(a))
+                    {
+                        GameObject.Instantiate(Spawnable, tile.spawnLocations[a].transform.position, Quaternion.identity);
+                        check.Add(a);
+                    }
+                }
+			}
+		}
+
+
     }
 
     // Update is called once per frame

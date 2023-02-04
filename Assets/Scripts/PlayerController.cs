@@ -29,8 +29,20 @@ public class PlayerController : MonoBehaviour
 
 
     private Camera mainCamera;
-    // Start is called before the first frame update
-    void Start()
+
+	private void Awake()
+	{
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("Player");
+
+        if (objs.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+    }
+	// Start is called before the first frame update
+	void Start()
     {
         controller = GetComponent<CharacterController>();
 
