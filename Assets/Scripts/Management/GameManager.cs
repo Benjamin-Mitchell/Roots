@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +16,9 @@ public class GameManager : MonoBehaviour
 
     public bool intro = true;
     private float introLength = 3.0f;
+
+    private NavMeshSurface surface;
+
 	// Start is called before the first frame update
 	private void Awake()
 	{
@@ -37,6 +42,7 @@ public class GameManager : MonoBehaviour
         //StartLevel();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<CharacterController>();
+        surface = GameObject.FindGameObjectWithTag("Nav").GetComponent<NavMeshSurface>();
         StartLevel();
 
         if(intro == true)
@@ -57,6 +63,8 @@ public class GameManager : MonoBehaviour
         playerController.enabled = false;
         player.transform.position = spawn.transform.position;
         playerController.enabled = true;
+
+        surface.BuildNavMesh();
 	}
 
     public bool PlayerReachedEnd()

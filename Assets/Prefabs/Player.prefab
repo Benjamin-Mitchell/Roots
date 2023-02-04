@@ -165,7 +165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf0f220d27c5f942bcd51edd9ddd9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   maxHealth: 10
+=======
+>>>>>>> 060eb74c03489c29202f9d1db2c80adbb02fa6a4
   moveSpeed: 7
   jumpForce: 75
   controller: {fileID: 5724686472523089807}
