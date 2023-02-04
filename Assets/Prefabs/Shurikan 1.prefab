@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4781156007500386764}
   - component: {fileID: 7978641093715862680}
   m_Layer: 0
-  m_Name: Shurikan
+  m_Name: Shurikan 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

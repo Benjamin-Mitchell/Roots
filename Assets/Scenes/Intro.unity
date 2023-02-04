@@ -801,7 +801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5110cf53fee7eb44aa534869bf784bf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numScenes: 2
+  numScenes: 3
   player: {fileID: 476856825}
   intro: 1
 --- !u!4 &949998593

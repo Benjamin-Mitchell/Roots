@@ -17,7 +17,7 @@ using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
-    public GameObject Spawnable;
+    //public GameObject Spawnable;
 
     public int minEnemies;
     public int maxEnemies;
@@ -27,7 +27,10 @@ public class RoomGenerator : MonoBehaviour
 
     private int updatedMin;
 
-    TileVariety[] components;
+    //TileVariety[] components;
+    GameObject[] enemySpawns;
+
+    public List<GameObject> enemiesToSpawn;
 
     public List<EnemyController> aliveEnemies = new List<EnemyController>();
 
@@ -71,34 +74,36 @@ public class RoomGenerator : MonoBehaviour
         //now pick a bunch of tiles and variably add some foliag-ey type stuff.
 
         //This just gets active components
-        components = GameObject.FindObjectsOfType<TileVariety>();
-        
-        foreach(TileVariety tile in components)
-		{
-            {//Randomly spawn foliage and stuff
-                float f = Random.Range(0.0f, 1.0f);
+        //components = GameObject.FindObjectsOfType<TileVariety>();
 
-                if (f < 0.33f)
-                {
-                    int n = Random.Range(0, tile.spawnLocations.Count);
+        //      foreach(TileVariety tile in components)
+        //{
+        //          {//Randomly spawn foliage and stuff
+        //              float f = Random.Range(0.0f, 1.0f);
 
-                    List<int> check = new List<int>();
-                    for (int i = 0; i < n; i++)
-                    {
-                        int a = Random.Range(0, tile.spawnLocations.Count);
+        //              if (f < 0.33f)
+        //              {
+        //                  int n = Random.Range(0, tile.spawnLocations.Count);
 
-                        if (!check.Contains(a))
-                        {
-                            GameObject temp = GameObject.Instantiate(Spawnable, tile.spawnLocations[a].transform.position, Quaternion.identity);
-                            temp.transform.SetParent(tile.gameObject.transform);
-                            check.Add(a);
-                        }
-                    }
-                }
-            }
-		}
+        //                  List<int> check = new List<int>();
+        //                  for (int i = 0; i < n; i++)
+        //                  {
+        //                      int a = Random.Range(0, tile.spawnLocations.Count);
+
+        //                      //if (!check.Contains(a))
+        //                      //{
+        //                      //    GameObject temp = GameObject.Instantiate(Spawnable, tile.spawnLocations[a].transform.position, Quaternion.identity);
+        //                      //    temp.transform.SetParent(tile.gameObject.transform);
+        //                      //    check.Add(a);
+        //                      //}
+        //                  }
+        //              }
+        //          }
+        //}
 
         //random chance for waves to increase here?
+
+        enemySpawns = GameObject.FindGameObjectsWithTag("EnemySpawnLocation");
 
         updatedMin = minEnemies;
         advanceWave();
@@ -112,10 +117,8 @@ public class RoomGenerator : MonoBehaviour
     }
     private void advanceWave()
 	{
-        Debug.Log("ADVANCING WAVE");
         if(wavesSpawned >= numWaves)
 		{
-            //SET END ENABLED
             EndRoom();
             return;
 		}
@@ -128,12 +131,12 @@ public class RoomGenerator : MonoBehaviour
             int index;
             do
             {
-                index = Random.Range(0, components.Length);
-            } while (indicesUsed.Contains(index) || !components[index].canSpawnEnemies);
+                index = Random.Range(0, enemySpawns.Length);
+            } while (indicesUsed.Contains(index));
 
             indicesUsed.Add(index);
 
-            EnemyController temp = GameObject.Instantiate(components[index].enemiesToSpawn[Random.Range(0, components[index].enemiesToSpawn.Count)], components[index].transform.position, Quaternion.identity).GetComponent<EnemyController>();
+            EnemyController temp = GameObject.Instantiate(enemiesToSpawn[Random.Range(0, enemiesToSpawn.Count)], enemySpawns[index].transform.position, Quaternion.identity).GetComponent<EnemyController>();
             temp.SetRoomGeneration(this);
             aliveEnemies.Add(temp);
         }
