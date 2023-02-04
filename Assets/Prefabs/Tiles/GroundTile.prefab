@@ -117,7 +117,7 @@ MonoBehaviour:
   - {fileID: 5908843408076903777}
   spawnables:
   - {fileID: 1551638528594176594, guid: abdd20a00f81d9740924c04d78d94704, type: 3}
-  - {fileID: 3967810252910058558, guid: 4d31e962eda5a1e45850752d19d247a1, type: 3}
+  - {fileID: 5306028305016257001, guid: 4d31e962eda5a1e45850752d19d247a1, type: 3}
   canSpawnEnemies: 1
 --- !u!1 &7133390985362588519
 GameObject:

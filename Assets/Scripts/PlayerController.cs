@@ -84,7 +84,7 @@ public class PlayerController : Character
         }
 
         moveDirection = (mainCamera.transform.forward * Input.GetAxis("Vertical")) + (mainCamera.transform.right * Input.GetAxis("Horizontal"));
-        moveDirection = moveDirection.normalized * (dashing ? dashSpeed : (meleeWeapon.isAttacking ? meleeSpeed : moveSpeed));
+        moveDirection = moveDirection.normalized * (dashing ? dashSpeed : (Input.GetKey(KeyCode.Mouse0) ? meleeSpeed : moveSpeed));
 
 
         moveDirection.y = Physics.gravity.y * gravityScale;
@@ -92,7 +92,12 @@ public class PlayerController : Character
         controller.Move(movingVelocity);
 
 
-        anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
+        var val = (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal")));
+        if(!Input.GetKey(KeyCode.Mouse0))
+        {
+            val *= 10;
+        }
+        anim.SetFloat("Speed", val);
 
         if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
         {
