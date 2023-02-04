@@ -5,8 +5,8 @@ using UnityEngine;
 public class Sword : Weapon
 {
     private Animator animator;
-    public bool isAttacking = false;
-    private float attackTime;
+
+    public float attackTime = 1;
 
     public Transform attackPoint;
     public float attackRange = 0.5f;
@@ -16,7 +16,7 @@ public class Sword : Weapon
     {
         if (isAttacking) return;
         isAttacking = true;
-        animator.SetTrigger("Attack");
+        if(animator != null) animator.SetTrigger("Attack");
         StartCoroutine("FinishAttack");
     }
 
@@ -40,23 +40,23 @@ public class Sword : Weapon
     void Start()
     {
         animator = GetComponent<Animator>();
-        UpdateAnimClipTimes();
+        //UpdateAnimClipTimes();
 
     }
 
-    public void UpdateAnimClipTimes()
-    {
-        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-        foreach (AnimationClip clip in clips)
-        {
-            switch (clip.name)
-            {
-                case "SwordAttack":
-                    attackTime = clip.length;
-                    break;
-            }
-        }
-    }
+    //public void UpdateAnimClipTimes()
+    //{
+    //    AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+    //    foreach (AnimationClip clip in clips)
+    //    {
+    //        switch (clip.name)
+    //        {
+    //            case "SwordAttack":
+    //                attackTime = clip.length;
+    //                break;
+    //        }
+    //    }
+    //}
 
     private void OnDrawGizmosSelected()
     {

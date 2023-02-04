@@ -11,8 +11,7 @@ public class PlayerController : Character
 
     private Vector3 moveDirection;
     public float gravityScale;
-    //public Animator anim;
-    public float rotateSpeed;
+    public Animator anim;
 
     public float knockBackForce;
     public float knockBackTime;
@@ -30,8 +29,11 @@ public class PlayerController : Character
 
     private Camera mainCamera;
     private int currentHealth;
+    public float rotateSpeed;
 
-	private void Awake()
+    public Transform heightForSpawn;
+
+    private void Awake()
 	{
         GameObject[] objs = GameObject.FindGameObjectsWithTag("Player");
 
@@ -61,11 +63,11 @@ public class PlayerController : Character
     }
     private void Update()
     {
-        if (Input.GetButtonDown("Jump"))
-        {
-            moveSpeed = 200f;
-        }
-        else { moveSpeed = 7f; }
+        //if (Input.GetButtonDown("Jump"))
+        //{
+        //    moveSpeed = 200f;
+        //}
+        //else { moveSpeed = 7f; }
 
         moveDirection = (mainCamera.transform.forward * Input.GetAxis("Vertical")) + (mainCamera.transform.right * Input.GetAxis("Horizontal"));
         moveDirection = moveDirection.normalized * moveSpeed;
@@ -74,15 +76,22 @@ public class PlayerController : Character
         moveDirection.y = moveDirection.y + (Physics.gravity.y * gravityScale);
         controller.Move(moveDirection * Time.deltaTime);
 
+
+        anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
+
         if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
         {
             PerformAttack();
         }
         else if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
-            hasMoved = true;
-            var rotate = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
-            lastRotation = Quaternion.LookRotation(rotate);
+            hasMoved = true; 
+
+            //var rotate = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
+            //lastRotation = Quaternion.LookRotation(rotate);
+
+            Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z).normalized);
+            lastRotation = Quaternion.Slerp(transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
             transform.rotation = lastRotation;
         }
         else if(hasMoved)
@@ -113,7 +122,7 @@ public class PlayerController : Character
     {
         hasMoved = true;
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        float t = plaIntersect(ray.origin - new Vector3(0.0f, transform.position.y, 0.0f), ray.direction, new Vector4(0.0f, 1.0f, 0.0f, 0.0f));
+        float t = plaIntersect(ray.origin - new Vector3(0.0f, (heightForSpawn == null) ? transform.position.y : heightForSpawn.position.y, 0.0f), ray.direction, new Vector4(0.0f, 1f, 0.0f, 0.0f));
 
         Vector3 hitPoint = ray.origin + ray.direction * t;
 
@@ -122,6 +131,10 @@ public class PlayerController : Character
 
         if (Input.GetKey(KeyCode.Mouse0))
         {
+            if (!meleeWeapon.isAttacking)
+            {
+                anim.SetTrigger("HitSword");
+            }
             meleeWeapon.PerformAttack();
         }
         else
