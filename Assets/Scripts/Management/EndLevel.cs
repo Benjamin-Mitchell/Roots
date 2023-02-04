@@ -19,7 +19,6 @@ public class EndLevel : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
 	{
-        Debug.Log("collided with " + other.gameObject.name);
         if (other.gameObject.CompareTag("Player"))
 		{
             if(!gameManager.PlayerReachedEnd())

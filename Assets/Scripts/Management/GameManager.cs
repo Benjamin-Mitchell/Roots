@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public int numScenes;
     public GameObject player;
 
+    private CharacterController playerController;
+
     private List<string> scenes = new List<string>();
 
     public bool intro = true;
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
 	void Start()
     {
         //StartLevel();
+        playerController = player.GetComponent<CharacterController>();
 
         if(intro == true)
 		{
@@ -49,8 +52,9 @@ public class GameManager : MonoBehaviour
     void StartLevel()
 	{
         GameObject spawn = GameObject.Find("Start");
+        playerController.enabled = false;
         player.transform.position = spawn.transform.position;
-        Debug.Log("Setting start position at " + spawn.transform.position);
+        playerController.enabled = true;
 	}
 
     public bool PlayerReachedEnd()
@@ -61,9 +65,7 @@ public class GameManager : MonoBehaviour
             return false;
 		}
         int index = Random.Range(0, scenes.Count);
-        SceneManager.LoadScene(scenes[index]);
-        scenes.RemoveAt(index);
-        StartLevel();
+        StartCoroutine(LoadLevel(scenes[index], index));// SceneManager.LoadScene(scenes[index]);
         return true;
 	}
 
@@ -72,4 +74,17 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(secs);
         PlayerReachedEnd();
 	}
+
+    private IEnumerator LoadLevel(string sceneName, int index)
+    {
+        var asyncLoadLevel = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        while (!asyncLoadLevel.isDone)
+        {
+            yield return null;
+        }
+
+        scenes.RemoveAt(index);
+        StartLevel();
+        //LoadScene?.Invoke(newSceneName);
+    }
 }
