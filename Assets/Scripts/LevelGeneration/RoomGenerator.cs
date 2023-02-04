@@ -19,9 +19,25 @@ public class RoomGenerator : MonoBehaviour
 {
     public GameObject Spawnable;
 
+    public int minEnemies;
+    public int maxEnemies;
+    public int numWaves;
+
+    private int wavesSpawned = 0;
+
+    private int updatedMin;
+
+    TileVariety[] components;
+
+    public List<EnemyController> aliveEnemies = new List<EnemyController>();
+
+    private GameObject end;
+
     // Start is called before the first frame update
     void Start()
     {
+        end = GameObject.Find("End");
+        end.SetActive(false);
         //pick some superset variations of the scene.
         foreach (Transform child in transform)
 		{
@@ -55,36 +71,89 @@ public class RoomGenerator : MonoBehaviour
         //now pick a bunch of tiles and variably add some foliag-ey type stuff.
 
         //This just gets active components
-        TileVariety[] components = GameObject.FindObjectsOfType<TileVariety>();
+        components = GameObject.FindObjectsOfType<TileVariety>();
         
         foreach(TileVariety tile in components)
 		{
-            float f = Random.Range(0.0f, 1.0f);
+            {//Randomly spawn foliage and stuff
+                float f = Random.Range(0.0f, 1.0f);
 
-            if(f < 0.33f)
-			{
-                int n = Random.Range(0, tile.spawnLocations.Count);
+                if (f < 0.33f)
+                {
+                    int n = Random.Range(0, tile.spawnLocations.Count);
 
-                List<int> check = new List<int>();
-                for(int i = 0; i < n; i++)
-				{
-                    int a = Random.Range(0, tile.spawnLocations.Count);
-
-                    if (!check.Contains(a))
+                    List<int> check = new List<int>();
+                    for (int i = 0; i < n; i++)
                     {
-                        GameObject.Instantiate(Spawnable, tile.spawnLocations[a].transform.position, Quaternion.identity);
-                        check.Add(a);
+                        int a = Random.Range(0, tile.spawnLocations.Count);
+
+                        if (!check.Contains(a))
+                        {
+                            GameObject temp = GameObject.Instantiate(Spawnable, tile.spawnLocations[a].transform.position, Quaternion.identity);
+                            temp.transform.SetParent(tile.gameObject.transform);
+                            check.Add(a);
+                        }
                     }
                 }
-			}
+            }
 		}
 
+        //random chance for waves to increase here?
+
+        updatedMin = minEnemies;
+        advanceWave();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+    private void advanceWave()
+	{
+        Debug.Log("ADVANCING WAVE");
+        if(wavesSpawned >= numWaves)
+		{
+            //SET END ENABLED
+            EndRoom();
+            return;
+		}
+        int numToSpawn = updatedMin == maxEnemies ? maxEnemies + 1 : Random.Range(updatedMin, maxEnemies);
+
+        List<int> indicesUsed = new List<int>();
+
+        for(int i = 0; i < numToSpawn; i++)
+		{
+            int index;
+            do
+            {
+                index = Random.Range(0, components.Length);
+            } while (indicesUsed.Contains(index) || !components[index].canSpawnEnemies);
+
+            indicesUsed.Add(index);
+
+            EnemyController temp = GameObject.Instantiate(components[index].enemiesToSpawn[Random.Range(0, components[index].enemiesToSpawn.Count)], components[index].transform.position, Quaternion.identity).GetComponent<EnemyController>();
+            temp.SetRoomGeneration(this);
+            aliveEnemies.Add(temp);
+        }
+
+        wavesSpawned++;
+        StartCoroutine(waveTick());
+    }
+
+    private IEnumerator waveTick()
+	{
+        while(aliveEnemies.Count != 0)
+		{
+            yield return null;
+		}
+
+        advanceWave();
+	}
+
+    private void EndRoom()
+	{
+        end.SetActive(true);
     }
 }

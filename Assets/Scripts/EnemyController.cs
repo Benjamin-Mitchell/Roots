@@ -25,6 +25,8 @@ public class EnemyController : Character
 
     private bool canAttack;
 
+    private RoomGenerator roomGenerator;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -133,8 +135,14 @@ public class EnemyController : Character
         }
     }
 
+    public void SetRoomGeneration(RoomGenerator generator)
+	{
+        roomGenerator = generator;
+    }
+
     public override void Die()
     {
+        roomGenerator.aliveEnemies.Remove(this);
         Destroy(gameObject);
     }
 
