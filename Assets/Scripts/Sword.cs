@@ -27,7 +27,9 @@ public class Sword : Weapon
 
         foreach (var enemy in hitEnemies)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(damage);
+            var direction = this.GetComponentInParent<Transform>().forward;
+            enemy.GetComponent<Character>().Knockback(direction);
+            enemy.GetComponent<Character>().TakeDamage(damage);
         }
 
         yield return new WaitForSeconds(attackTime / 2);

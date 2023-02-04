@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EnemyController : Enemy
+public class EnemyController : Character
 {
     private NavMeshAgent agent;
     private Transform player;
@@ -18,9 +19,13 @@ public class EnemyController : Enemy
     private bool playerInSightRange, playerInAttackRange; 
 
     private int currentHealth;
+    private Rigidbody rb;
+    public Weapon weapon;
+    public bool isRanged;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         currentHealth = maxHealth;
@@ -34,6 +39,12 @@ public class EnemyController : Enemy
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
+    }
+
+
+    public override void PerformAttack()
+    {
+        weapon.PerformAttack(player.position);
     }
 
     private void OnDrawGizmosSelected()
@@ -73,29 +84,33 @@ public class EnemyController : Enemy
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
+        transform.LookAt(player);
     }
     private void AttackPlayer()
     {
-        ChasePlayer();
-        transform.LookAt(player);
 
-        if(!alreadyAttacked)
+        if (!alreadyAttacked)
         {
+            ChasePlayer();
             PerformAttack();
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
+        else if (!isRanged)
+        {
+            agent.SetDestination(transform.position);
+        }
+        else
+        {
+            ChasePlayer();
+        }
+
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
-    }
-
-    public override void PerformAttack()
-    {
-        //ATTACK
     }
 
     public override void TakeDamage(int amount)
@@ -110,6 +125,13 @@ public class EnemyController : Enemy
     public override void Die()
     {
         Destroy(gameObject);
+    }
+
+    public override void Knockback(Vector3 direction)
+    {
+        //var force = (direction.normalized * 10) + Vector3.up * 120;
+        ////var force = new Vector3(0, 10, 10);
+        //rb.AddForce(force, ForceMode.Impulse);
     }
 
 }
