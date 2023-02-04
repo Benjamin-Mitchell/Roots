@@ -294,6 +294,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8333302426286923470, guid: 363be1377701a354a98043e6eee7f34c,
         type: 3}
+      propertyPath: aimAtPLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8333302426286923470, guid: 363be1377701a354a98043e6eee7f34c,
+        type: 3}
       propertyPath: launchVelocity
       value: 10
       objectReference: {fileID: 0}

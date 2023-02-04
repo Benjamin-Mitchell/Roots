@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using static UnityEngine.GraphicsBuffer;
 
 public class Shurikan : MonoBehaviour
 {
     public int damage; 
     public string enemyTag;
-    public string playerTag;
+    public GameObject impactParticles;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,7 +17,7 @@ public class Shurikan : MonoBehaviour
             other.GetComponent<Character>().TakeDamage(damage);
         }
 
-        if(other.tag != playerTag)
+        if(other.tag == "Wall" || other.tag == enemyTag)
         {
             DestroyShurikan();
         }
@@ -24,6 +25,10 @@ public class Shurikan : MonoBehaviour
 
     private void DestroyShurikan()
     {
+        if (impactParticles != null)
+        {
+            Instantiate(impactParticles, transform.position, transform.rotation);
+        }
         Destroy(gameObject);
     }
 }

@@ -118,8 +118,6 @@ MonoBehaviour:
   spawnables:
   - {fileID: 1551638528594176594, guid: abdd20a00f81d9740924c04d78d94704, type: 3}
   canSpawnEnemies: 1
-  enemiesToSpawn:
-  - {fileID: 6305101405633793153, guid: 8b4822f34e54085428c8b66c4070db42, type: 3}
 --- !u!1 &7133390985362588519
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,6 +215,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ground_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cd499158af2efe24cb593c6f30a6ae12,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd499158af2efe24cb593c6f30a6ae12, type: 3}

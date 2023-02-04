@@ -123,8 +123,12 @@ MonoBehaviour:
   meleeWeapon: {fileID: 292230103733730223}
   rangedWeapon: {fileID: 1695031174748774145}
   shield: {fileID: 0}
-  rotateSpeed: 20
+  rotateSpeed: 800
   heightForSpawn: {fileID: 1590132469}
+  dashTime: 0.02
+  dashResetTime: 2
+  dashSpeed: 60
+  meleeSpeed: 5
 --- !u!143 &7214805880311436569
 CharacterController:
   m_ObjectHideFlags: 0
@@ -168,7 +172,7 @@ PrefabInstance:
     - target: {fileID: 8333302426286923470, guid: 363be1377701a354a98043e6eee7f34c,
         type: 3}
       propertyPath: launchVelocity
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8333302426286923471, guid: 363be1377701a354a98043e6eee7f34c,
         type: 3}
