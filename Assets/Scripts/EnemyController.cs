@@ -30,7 +30,7 @@ public class EnemyController : Character
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        player = GameObject.Find("CharacterPrefab").transform;
+        player = GameObject.FindWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         currentHealth = maxHealth;
     }

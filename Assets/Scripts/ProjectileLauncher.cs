@@ -12,11 +12,12 @@ public class ProjectileLauncher : Weapon
 
     private Transform player;
     private CharacterController playerController;
+    public bool aimAtPLayer;
 
     private void Start()
     {
-        player = GameObject.Find("CharacterPrefab").transform;
-        playerController = GameObject.Find("CharacterPrefab").GetComponent<CharacterController>();
+        player = GameObject.FindWithTag("Player").transform;
+        playerController = GameObject.FindWithTag("Player").GetComponent<CharacterController>();
     }
     public override void PerformAttack(Vector3? direction)
     {
@@ -24,7 +25,9 @@ public class ProjectileLauncher : Weapon
         isAttacking = true;
         GameObject ball = Instantiate(projectile, transform.position, player.rotation);
 
-        var velocity = (direction.Value - transform.position).normalized * launchVelocity + playerController.velocity;
+        Vector3 playerVelocity = Vector3.zero;
+        if (aimAtPLayer) playerVelocity = playerController.velocity;
+        var velocity = (direction.Value - transform.position).normalized * launchVelocity + playerVelocity;
         velocity.y = 0;
         ball.GetComponent<Rigidbody>().velocity = velocity;
         StartCoroutine(nameof(FinishAttack));

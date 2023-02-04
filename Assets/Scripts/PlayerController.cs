@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -32,7 +33,13 @@ public class PlayerController : Character
     public float rotateSpeed;
 
     public Transform heightForSpawn;
+    public float dashTime = 0.2f;
+    public float dashResetTime = 5f;
+    public float dashSpeed = 20;
+    bool dashing;
+    bool canDash = true;
 
+    public float meleeSpeed = 3f;
     private void Awake()
 	{
         GameObject[] objs = GameObject.FindGameObjectsWithTag("Player");
@@ -61,20 +68,28 @@ public class PlayerController : Character
         return -(Vector3.Dot(ro, pxyz) + p.w) / Vector3.Dot(rd, pxyz);
         //return -(dot(ro, p.xyz) + p.w) / dot(rd, p.xyz);
     }
+
     private void Update()
     {
-        //if (Input.GetButtonDown("Jump"))
-        //{
-        //    moveSpeed = 200f;
-        //}
-        //else { moveSpeed = 7f; }
+        bool isMoving = Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0;
+
+        if (!isMoving)
+        {
+            controller.Move(new Vector3(0, 0, 0));
+        }
+
+        if (Input.GetButton("Jump") && canDash)
+        {
+            StartCoroutine(nameof(DashCorutine));
+        }
 
         moveDirection = (mainCamera.transform.forward * Input.GetAxis("Vertical")) + (mainCamera.transform.right * Input.GetAxis("Horizontal"));
-        moveDirection = moveDirection.normalized * moveSpeed;
+        moveDirection = moveDirection.normalized * (dashing ? dashSpeed : (meleeWeapon.isAttacking ? meleeSpeed : moveSpeed));
 
 
-        moveDirection.y = moveDirection.y + (Physics.gravity.y * gravityScale);
-        controller.Move(moveDirection * Time.deltaTime);
+        moveDirection.y = Physics.gravity.y * gravityScale;
+        var movingVelocity = isMoving ? (moveDirection * Time.deltaTime) : new Vector3(0, 0, 0);
+        controller.Move(movingVelocity);
 
 
         anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
@@ -83,7 +98,7 @@ public class PlayerController : Character
         {
             PerformAttack();
         }
-        else if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        else if (isMoving)
         {
             hasMoved = true; 
 
@@ -91,7 +106,7 @@ public class PlayerController : Character
             //lastRotation = Quaternion.LookRotation(rotate);
 
             Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z).normalized);
-            lastRotation = Quaternion.Slerp(transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
+            lastRotation = Quaternion.Lerp(transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
             transform.rotation = lastRotation;
         }
         else if(hasMoved)
@@ -111,6 +126,7 @@ public class PlayerController : Character
 
     public override void TakeDamage(int amount)
     {
+        if (dashing) return;
         currentHealth -= amount;
         if (currentHealth < 0)
         {
@@ -125,8 +141,12 @@ public class PlayerController : Character
         float t = plaIntersect(ray.origin - new Vector3(0.0f, (heightForSpawn == null) ? transform.position.y : heightForSpawn.position.y, 0.0f), ray.direction, new Vector4(0.0f, 1f, 0.0f, 0.0f));
 
         Vector3 hitPoint = ray.origin + ray.direction * t;
-
-        transform.LookAt(hitPoint, Vector3.up);
+        var mouseDistance = Vector3.Distance(hitPoint, transform.position);
+ 
+        if(mouseDistance > 0.5f)
+        {
+            transform.LookAt(hitPoint, Vector3.up);
+        }
         lastRotation = transform.rotation;
 
         if (Input.GetKey(KeyCode.Mouse0))
@@ -146,5 +166,15 @@ public class PlayerController : Character
     public override void Die()
     {
         //Die
+    }
+
+    private IEnumerator DashCorutine()
+    {
+        dashing = true;
+        canDash = false;
+        yield return new WaitForSeconds(dashTime);
+        dashing = false;
+        yield return new WaitForSeconds(dashResetTime);
+        canDash = true;
     }
 }
