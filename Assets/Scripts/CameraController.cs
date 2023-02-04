@@ -8,9 +8,23 @@ public class CameraController : MonoBehaviour
     public Vector3 offset;
     public bool useOffsetValues;
 
+    private void Awake()
+    {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("MainCamera");
+
+        if (objs.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+
         if (!useOffsetValues)
         {
             offset = target.position - transform.position;

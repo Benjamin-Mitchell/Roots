@@ -1800,7 +1800,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e5fafbe092b9f4899a52ea3c6d0fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spawnable: {fileID: 0}
+  Spawnable: {fileID: 919132149155446097, guid: 35bf761fd4106fd409f757e764a214c6,
+    type: 3}
 --- !u!4 &664438660
 Transform:
   m_ObjectHideFlags: 0

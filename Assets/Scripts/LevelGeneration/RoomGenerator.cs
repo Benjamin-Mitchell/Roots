@@ -59,7 +59,7 @@ public class RoomGenerator : MonoBehaviour
         
         foreach(TileVariety tile in components)
 		{
-            float f = Random.RandomRange(0.0f, 1.0f);
+            float f = Random.Range(0.0f, 1.0f);
 
             if(f < 0.33f)
 			{
