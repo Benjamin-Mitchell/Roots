@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
         surface = GameObject.FindGameObjectWithTag("Nav").GetComponent<NavMeshSurface>();
         StartLevel();
 
-        if(intro == true)
+        if(intro)
 		{
             StartCoroutine(WaitToContinue(introLength));
 		}
@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
 	{
         yield return new WaitForSeconds(secs);
         PlayerReachedEnd();
+        intro = false;
 	}
 
     private IEnumerator LoadLevel(string sceneName, int index)

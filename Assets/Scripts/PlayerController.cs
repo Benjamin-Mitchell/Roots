@@ -106,7 +106,7 @@ public class PlayerController : Character
     public override void PerformAttack()
     {
         hasMoved = true;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         float t = plaIntersect(ray.origin - new Vector3(0.0f, transform.position.y, 0.0f), ray.direction, new Vector4(0.0f, 1.0f, 0.0f, 0.0f));
 
         Vector3 hitPoint = ray.origin + ray.direction * t;
