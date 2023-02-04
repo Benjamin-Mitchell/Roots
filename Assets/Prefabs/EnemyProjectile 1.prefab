@@ -115,6 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   enemyTag: Player
+  playerTag: Enemy
 --- !u!54 &7978641093715862680
 Rigidbody:
   m_ObjectHideFlags: 0

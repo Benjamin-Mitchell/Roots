@@ -29,6 +29,7 @@ public class TileVariety : MonoBehaviour
 				{
 					int index = Random.Range(0, spawnables.Count);
 					GameObject temp = GameObject.Instantiate(spawnables[index], spawnLocations[a].transform.position, Quaternion.identity);
+					temp.transform.Rotate(new Vector3(0.0f, Random.Range(0.0f, 360.0f), 0.0f));
 					temp.transform.SetParent(gameObject.transform);
 					check.Add(a);
 				}

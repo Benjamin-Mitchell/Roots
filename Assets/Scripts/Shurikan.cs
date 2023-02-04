@@ -7,13 +7,23 @@ public class Shurikan : MonoBehaviour
 {
     public int damage; 
     public string enemyTag;
+    public string playerTag;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == enemyTag)
         {
             other.GetComponent<Character>().TakeDamage(damage);
-            Destroy(gameObject);
         }
+
+        if(other.tag != playerTag)
+        {
+            DestroyShurikan();
+        }
+    }
+
+    private void DestroyShurikan()
+    {
+        Destroy(gameObject);
     }
 }
