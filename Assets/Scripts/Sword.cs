@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Sword : Weapon
 {
@@ -12,11 +13,15 @@ public class Sword : Weapon
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
 
+    public VisualEffect slash;
+
     public override void PerformAttack(Vector3? direction = null)
     {
         if (isAttacking) return;
         isAttacking = true;
         if(animator != null) animator.SetTrigger("Attack");
+        if(slash != null)
+            slash.Play();
         StartCoroutine("FinishAttack");
     }
 
