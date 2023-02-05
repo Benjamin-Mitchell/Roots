@@ -86,8 +86,9 @@ public class PlayerController : Character
             anim.SetTrigger("Respawn");
         }
 
-        if (transform.position.y < -0.9f && !endingGame)
+        if (transform.position.y < -0.9f && !endingGame && hasMoved)
         {
+            currentHealth = 0;
             Die();
         }
 
@@ -195,6 +196,7 @@ public class PlayerController : Character
     public override void Die()
     {
         endingGame = true;
+        hasMoved = false;
         StartCoroutine(DeathAnimation());
 
         //Todo: Death animation
