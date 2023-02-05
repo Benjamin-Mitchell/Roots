@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class BarrelLaunch : Launch
 {
+	public GameObject explosion;
+
+	private PlayerController player;
+	private float explosionRadius;
+
 	private void Awake()
 	{
 	}
@@ -18,10 +23,20 @@ public class BarrelLaunch : Launch
         transform.Rotate(new Vector3(360.0f * Time.deltaTime, 0.0f, 0.0f));
     }
 
+	public void LaunchIt(Vector3 targetPos, float angle, PlayerController playerPass, float radiusPass)
+	{
+		explosionRadius = radiusPass;
+		player = playerPass;
+		base.LaunchIt(targetPos, angle);
+	}
+
 	private void OnCollisionEnter(Collision collision)
 	{
-        //Do an explosion
-        if (collision.gameObject.tag != "Enemy") ;
+		//Do an explosion
+		GameObject exp = GameObject.Instantiate(explosion, transform.position, Quaternion.identity);
+		exp.GetComponent<BarrelExplosion>().Explode(player, explosionRadius);
+
+		if (collision.gameObject.tag != "Enemy")
             Destroy(gameObject);
 	}
 }

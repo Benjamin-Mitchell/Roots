@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Unity.AI.Navigation;
 
 public class Boss : Character
@@ -31,12 +32,15 @@ public class Boss : Character
     public GameObject[] enemiesToSpawn;
 
     private GameObject player;
+    private PlayerController playerController;
 
+    public Slider bossHealthSlider;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -187,7 +191,7 @@ public class Boss : Character
         {
             GameObject bar = GameObject.Instantiate(barrel, transform.position + transform.forward + Vector3.up, Quaternion.identity);
             BarrelLaunch temp = bar.GetComponent<BarrelLaunch>();
-            temp.LaunchIt(hitMarkers[i].transform.position, 45.0f);
+            temp.LaunchIt(hitMarkers[i].transform.position, 45.0f, playerController, Mathf.Sqrt(hitMarker.transform.localScale.x));
         }
 
     }
@@ -199,7 +203,7 @@ public class Boss : Character
     public override void TakeDamage(int amount)
     {
         currentHealth -= amount;
-        Debug.Log("Boss Health" + currentHealth);
+        bossHealthSlider.value = (float)currentHealth / (float)maxHealth;
         if (currentHealth <= 0)
         {
             Die();
