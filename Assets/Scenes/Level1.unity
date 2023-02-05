@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9769,11 +9769,11 @@ Transform:
   - {fileID: 1686118992}
   - {fileID: 883875129}
   - {fileID: 736306797}
-  - {fileID: 1788535624}
   - {fileID: 263326725}
   - {fileID: 79208473}
   - {fileID: 783492090}
   - {fileID: 1560395766}
+  - {fileID: 1788535624}
   - {fileID: 704607189}
   - {fileID: 1340644647}
   - {fileID: 1662596865}
@@ -18669,9 +18669,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2100933325}
   - component: {fileID: 2100933324}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -15647,7 +15647,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1992942143}
   - component: {fileID: 1992942142}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameManager
   m_TagString: GameManager
   m_Icon: {fileID: 0}
