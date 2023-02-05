@@ -102,8 +102,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b679ba522fbecef43b992b54cb863dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 10
+  maxHealth: 15
+  currentHealth: 15
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -123,6 +123,7 @@ MonoBehaviour:
   deathParticles: {fileID: 6512062054699240410, guid: 7348765acb713b547a4fcf1c53967b7c,
     type: 3}
   renderer: {fileID: 3558305864156111866}
+  knockbackAmount: 8
 --- !u!1 &8698948204474414223
 GameObject:
   m_ObjectHideFlags: 0
