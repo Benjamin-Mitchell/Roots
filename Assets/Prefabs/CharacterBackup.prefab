@@ -29,9 +29,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7214805880311436571}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6828855873786537586
+--- !u!1 &1772240223559277300
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4310632694494325835}
+  - component: {fileID: 8343219162121145509}
   m_Layer: 7
   m_Name: ProjectileSpawn
   m_TagString: Untagged
@@ -47,13 +47,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4310632694494325835
+--- !u!4 &8343219162121145509
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6828855873786537586}
+  m_GameObject: {fileID: 1772240223559277300}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.25, y: 0.25, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -88,12 +88,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7214805879203620353}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.425, z: 0.94}
+  m_LocalPosition: {x: 0, y: 0.425, z: 0.408}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7214805880311436571}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &9044758935389879397
 VisualEffect:
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 7214805880311436570}
   - component: {fileID: 7214805880311436569}
   m_Layer: 7
-  m_Name: CharacterPrefab
+  m_Name: CharacterBackup
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,9 +204,9 @@ Transform:
   m_Children:
   - {fileID: 7181722729369234507}
   - {fileID: 1695031174748774144}
-  - {fileID: 1590132469}
   - {fileID: 7214805879203620354}
-  - {fileID: 4310632694494325835}
+  - {fileID: 1590132469}
+  - {fileID: 8343219162121145509}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -243,7 +243,6 @@ MonoBehaviour:
   isDead: 0
   endingGame: 0
   resetGame: 0
-  attackPoint: {fileID: 7214805879203620353}
 --- !u!143 &7214805880311436569
 CharacterController:
   m_ObjectHideFlags: 0
@@ -364,11 +363,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090f079df187c7f458b05eb6d5fb4571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 4
+  damage: 5
   isAttacking: 0
-  attackTime: 0.5
+  attackTime: 1
   attackPoint: {fileID: 7214805879203620354}
-  attackRange: 0.9
+  attackRange: 0.4
   enemyLayers:
     serializedVersion: 2
     m_Bits: 8
@@ -394,7 +393,7 @@ PrefabInstance:
         type: 3}
       propertyPath: startPos
       value: 
-      objectReference: {fileID: 4310632694494325835}
+      objectReference: {fileID: 8343219162121145509}
     - target: {fileID: 8333302426286923470, guid: 363be1377701a354a98043e6eee7f34c,
         type: 3}
       propertyPath: attackTime
