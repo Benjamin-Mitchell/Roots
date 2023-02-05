@@ -6,7 +6,7 @@ public class Sword : Weapon
 {
     private Animator animator;
 
-    public float attackTime = 1;
+    public float attackTime = 1f;
 
     public Transform attackPoint;
     public float attackRange = 0.5f;
@@ -22,7 +22,7 @@ public class Sword : Weapon
 
     private IEnumerator FinishAttack()
     {
-        yield return new WaitForSeconds(attackTime / 2);
+        yield return new WaitForSeconds(attackTime / 4);
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
 
         foreach (var enemy in hitEnemies)
@@ -32,7 +32,7 @@ public class Sword : Weapon
             enemy.GetComponent<Character>().TakeDamage(damage);
         }
 
-        yield return new WaitForSeconds(attackTime / 2);
+        yield return new WaitForSeconds((3 * attackTime) / 4);
         isAttacking = false;
     }
 

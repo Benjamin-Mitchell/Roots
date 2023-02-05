@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6305101405633793215
 Transform:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
   anim: {fileID: 1618449447}
   isRanged: 0
   chefHat: {fileID: 4138703934464162426}
-  deathParticles: {fileID: 919132149155446097, guid: 7c5bba62a9195bd4b92fcb542eff0444,
+  deathParticles: {fileID: 6512062054699240410, guid: 7348765acb713b547a4fcf1c53967b7c,
     type: 3}
 --- !u!1001 &1383766159
 PrefabInstance:
