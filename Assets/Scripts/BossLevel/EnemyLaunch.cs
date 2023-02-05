@@ -7,6 +7,7 @@ public class EnemyLaunch : Launch
 {
     NavMeshAgent navAgent;
     EnemyController enemyController;
+    Rigidbody enemyrb;
 	private void Awake()
 	{
         gameObject.layer = LayerMask.NameToLayer("EnemyProjectile");
@@ -14,6 +15,8 @@ public class EnemyLaunch : Launch
         navAgent.enabled = false;
         enemyController = GetComponent<EnemyController>();
         enemyController.enabled = false;
+        enemyrb = GetComponent<Rigidbody>();
+        enemyrb.isKinematic = false;
 	}
 	// Start is called before the first frame update
 	void Start()
@@ -34,6 +37,7 @@ public class EnemyLaunch : Launch
             gameObject.layer = LayerMask.NameToLayer("Enemies");
             navAgent.enabled = true;
             enemyController.enabled = true;
+            enemyrb.isKinematic = true;
         }
 	}
 }
