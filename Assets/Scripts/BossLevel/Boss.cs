@@ -32,6 +32,7 @@ public class Boss : Character
     public GameObject[] enemiesToSpawn;
 
     private GameObject player;
+    private PlayerController playerController;
 
     public Slider bossHealthSlider;
 
@@ -39,6 +40,7 @@ public class Boss : Character
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -189,7 +191,7 @@ public class Boss : Character
         {
             GameObject bar = GameObject.Instantiate(barrel, transform.position + transform.forward + Vector3.up, Quaternion.identity);
             BarrelLaunch temp = bar.GetComponent<BarrelLaunch>();
-            temp.LaunchIt(hitMarkers[i].transform.position, 45.0f);
+            temp.LaunchIt(hitMarkers[i].transform.position, 45.0f, playerController, Mathf.Sqrt(hitMarker.transform.localScale.x));
         }
 
     }
