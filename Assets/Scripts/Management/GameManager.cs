@@ -141,6 +141,7 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
+        playerHealth.resetGame = true;
         intro = true;
         StartLevel();
         StartCoroutine(WaitToContinue(introLength));
