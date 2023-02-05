@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf0f220d27c5f942bcd51edd9ddd9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 25
+  maxHealth: 75
   currentHealth: 0
   moveSpeed: 7
   jumpForce: 75
@@ -239,7 +239,7 @@ MonoBehaviour:
   dashTime: 0.02
   dashResetTime: 2
   dashSpeed: 60
-  meleeSpeed: 5
+  meleeSpeed: 3.5
   isDead: 0
   endingGame: 0
   resetGame: 0
