@@ -10,7 +10,12 @@ public class Shurikan : MonoBehaviour
     public string enemyTag;
     public GameObject impactParticles;
 
-    private void OnTriggerEnter(Collider other)
+	private void Update()
+	{
+        transform.Rotate(0.0f, 720.0f*Time.deltaTime, 0.0f);
+	}
+
+	private void OnTriggerEnter(Collider other)
     {
         if(other.tag == enemyTag)
         {
