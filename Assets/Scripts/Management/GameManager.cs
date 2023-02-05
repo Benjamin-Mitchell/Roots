@@ -24,15 +24,19 @@ public class GameManager : MonoBehaviour
 
     public CircleWipe circleWipe;
 
-	// Start is called before the first frame update
-	private void Awake()
+    private bool destroyThis;
+
+    // Start is called before the first frame update
+    private void Awake()
 	{
         //test
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameManager");
 
         if (objs.Length > 1)
         {
+            destroyThis = true;
             Destroy(this.gameObject);
+            return;
         }
 
         DontDestroyOnLoad(this.gameObject);
@@ -51,6 +55,8 @@ public class GameManager : MonoBehaviour
 
 	void Start()
     {
+        if (destroyThis) return;
+
         //StartLevel();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<CharacterController>();
@@ -141,10 +147,10 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
-        playerHealth.resetGame = true;
         intro = true;
         StartLevel();
         StartCoroutine(WaitToContinue(introLength));
+        playerHealth.resetGame = true;
         AddScenes();
     }
 

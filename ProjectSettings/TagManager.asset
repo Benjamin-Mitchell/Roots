@@ -12,6 +12,7 @@ TagManager:
   - EnemyProjectile
   - ScreenFade
   - UICanvas
+  - DeathFloor
   layers:
   - Default
   - TransparentFX

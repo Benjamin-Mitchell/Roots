@@ -30,6 +30,8 @@ public class EnemyController : Character
     public bool isRanged;
     private bool isFinished;
 
+    public GameObject chefHat;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -42,6 +44,11 @@ public class EnemyController : Character
     private void Start()
     {
         StartCoroutine(nameof(AttackStartup));
+        var randomHatProb = Random.Range(0, 2);
+        if(randomHatProb == 1)
+        {
+            chefHat.SetActive(false);
+        }
     }
 
     private IEnumerator AttackStartup()
@@ -148,6 +155,7 @@ public class EnemyController : Character
         else
         {
             agent.velocity = Vector3.zero;
+            transform.LookAt(player);
         }
     }
 

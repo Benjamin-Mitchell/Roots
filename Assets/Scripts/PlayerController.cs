@@ -73,12 +73,22 @@ public class PlayerController : Character
         //return -(dot(ro, p.xyz) + p.w) / dot(rd, p.xyz);
     }
 
+
     private void Update()
     {
         if (resetGame)
         {
+            if(transform.position.y < -0.9f)
+            {
+                transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
+            }
             resetGame = false;
             anim.SetTrigger("Respawn");
+        }
+
+        if (transform.position.y < -0.9f && !endingGame)
+        {
+            Die();
         }
 
         bool isMoving = Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0;
