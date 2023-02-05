@@ -108,9 +108,10 @@ public class PlayerController : Character
             StartCoroutine(nameof(DashCorutine));
         }
 
-        moveDirection = (mainCamera.transform.forward * Input.GetAxis("Vertical")) + (mainCamera.transform.right * Input.GetAxis("Horizontal"));
-        moveDirection = moveDirection.normalized * (dashing ? dashSpeed : (Input.GetKey(KeyCode.Mouse0) ? meleeSpeed : moveSpeed));
+        Vector3 forwardVec = new Vector3(mainCamera.transform.forward.x, 0.0f, mainCamera.transform.forward.z);
+        moveDirection = (forwardVec * Input.GetAxis("Vertical")) + (mainCamera.transform.right * Input.GetAxis("Horizontal"));
 
+        moveDirection = moveDirection.normalized * (dashing ? dashSpeed : (Input.GetKey(KeyCode.Mouse0) ? meleeSpeed : moveSpeed));
 
         moveDirection.y = Physics.gravity.y * gravityScale;
         var movingVelocity = isMoving ? (moveDirection * Time.deltaTime) : new Vector3(0, 0, 0);
