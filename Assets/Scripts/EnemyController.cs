@@ -31,7 +31,8 @@ public class EnemyController : Character
     private bool isFinished;
 
     public GameObject chefHat;
-
+    private bool isDead;
+    public GameObject deathParticles;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -166,6 +167,7 @@ public class EnemyController : Character
 
     public override void TakeDamage(int amount)
     {
+        if (isDead) return;
         currentHealth -= amount;
         if(currentHealth <= 0)
         {
@@ -180,10 +182,20 @@ public class EnemyController : Character
 
     public override void Die()
     {
+        isDead = true;
         if (roomGenerator != null)
         {
             roomGenerator.aliveEnemies.Remove(this);
         }
+        StartCoroutine(DeathAnimation());
+    }
+
+    private IEnumerator DeathAnimation()
+    {
+        anim.SetTrigger("IsDead");
+        yield return new WaitForSeconds(0.5f);
+        Instantiate(deathParticles, transform.position, transform.rotation);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 
