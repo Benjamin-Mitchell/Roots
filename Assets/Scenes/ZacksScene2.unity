@@ -861,11 +861,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 6305101405633793153, guid: 8b4822f34e54085428c8b66c4070db42,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6305101405633793215, guid: 8b4822f34e54085428c8b66c4070db42,
         type: 3}
       propertyPath: m_RootOrder
@@ -884,7 +879,7 @@ PrefabInstance:
     - target: {fileID: 6305101405633793215, guid: 8b4822f34e54085428c8b66c4070db42,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.4009056
+      value: -5.579
       objectReference: {fileID: 0}
     - target: {fileID: 6305101405633793215, guid: 8b4822f34e54085428c8b66c4070db42,
         type: 3}
@@ -7767,11 +7762,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RangedEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 6305101405633793153, guid: 21e82254a08db6f46aef4d92a1d469e0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6305101405633793215, guid: 21e82254a08db6f46aef4d92a1d469e0,
         type: 3}
       propertyPath: m_RootOrder
@@ -11350,6 +11340,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CharacterPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7214805880311436570, guid: 22bf016f01d9e384c87b7d4c95b7ba35,
+        type: 3}
+      propertyPath: maxHealth
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 7214805880311436571, guid: 22bf016f01d9e384c87b7d4c95b7ba35,
         type: 3}

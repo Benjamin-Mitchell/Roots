@@ -26,6 +26,9 @@ public class EnemyController : Character
 
     private RoomGenerator roomGenerator;
     private PlayerController playerHealth;
+    public Animator anim;
+    public bool isRanged;
+    private bool isFinished;
 
     private void Awake()
     {
@@ -55,13 +58,29 @@ public class EnemyController : Character
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
-    }
 
+        if (playerHealth.endingGame && !isFinished)
+        {
+            isFinished = true;
+            anim.SetBool("Finished", true);
+        }
+    }
 
     public override void PerformAttack()
     {
         if (!playerHealth.endingGame)
         {
+            if (!weapon.isAttacking)
+            {
+                if (isRanged)
+                {
+                    anim.SetTrigger("Throw");
+                }
+                else
+                {
+                    anim.SetTrigger("Hit");
+                }
+            }
             weapon.PerformAttack(player.position);
         }
         else
@@ -78,6 +97,7 @@ public class EnemyController : Character
 
     private void Patrolling()
     {
+        anim.SetFloat("Speed", 1f);
         if (!walkPointSet) SearchWalkPoint();
 
         if(walkPointSet)
@@ -106,6 +126,7 @@ public class EnemyController : Character
 
     private void ChasePlayer()
     {
+        anim.SetFloat("Speed", 1f);
         agent.SetDestination(player.position);
         transform.LookAt(player);
     }
@@ -113,6 +134,7 @@ public class EnemyController : Character
     {
         if (!alreadyAttacked && canAttack)
         {
+            anim.SetFloat("Speed", 0f);
             PerformAttack();
 
             alreadyAttacked = true;
