@@ -106,7 +106,7 @@ public class PlayerController : Character
             }
         }
 
-        if (Input.GetButton("Jump") && canDash)
+        if ((Input.GetButton("Jump") || Input.GetKey(KeyCode.LeftShift)) && canDash)
         {
             anim.SetTrigger("Dash");
             StartCoroutine(nameof(DashCorutine));
