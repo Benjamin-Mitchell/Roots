@@ -17,11 +17,13 @@ public class EndLevel : MonoBehaviour
         
     }
 
+    private bool ending;
     private void OnTriggerEnter(Collider other)
 	{
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !ending)
 		{
-            if(!gameManager.PlayerReachedEnd())
+            ending = true;
+            if (!gameManager.PlayerReachedEnd())
 			{
                 GetComponent<BoxCollider>().enabled = false;
 			}
