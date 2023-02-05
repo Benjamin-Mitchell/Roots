@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Unity.AI.Navigation;
 
 public class Boss : Character
@@ -32,6 +33,7 @@ public class Boss : Character
 
     private GameObject player;
 
+    public Slider bossHealthSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -199,7 +201,7 @@ public class Boss : Character
     public override void TakeDamage(int amount)
     {
         currentHealth -= amount;
-        Debug.Log("Boss Health" + currentHealth);
+        bossHealthSlider.value = (float)currentHealth / (float)maxHealth;
         if (currentHealth <= 0)
         {
             Die();
