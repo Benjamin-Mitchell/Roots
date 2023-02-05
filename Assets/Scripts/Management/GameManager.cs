@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,10 +19,13 @@ public class GameManager : MonoBehaviour
     private float introLength = 3.0f;
 
     private NavMeshSurface surface;
+    private PlayerController playerHealth;
+    public Slider playerHealthSlider;
 
 	// Start is called before the first frame update
 	private void Awake()
 	{
+        //test
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameManager");
 
         if (objs.Length > 1)
@@ -30,11 +34,17 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+        AddScenes();
+    }
 
-        for(int i = 0; i < numScenes; i++)
-		{
+    private void AddScenes()
+    {
+        scenes = new List<string>();
+        for (int i = 0; i < numScenes; i++)
+        {
             scenes.Add("Level" + i.ToString());
-		}
+        }
+        playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
 	void Start()
@@ -53,7 +63,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        playerHealthSlider.value = (float)playerHealth.currentHealth / (float)playerHealth.maxHealth;
+
+        if (playerHealth.isDead)
+        {
+            StartCoroutine(Restart());
+        }
     }
 
     void StartLevel()
@@ -101,5 +116,21 @@ public class GameManager : MonoBehaviour
         scenes.RemoveAt(index);
         StartLevel();
         //LoadScene?.Invoke(newSceneName);
+    }
+
+    public IEnumerator Restart()
+    {
+        //Todo: Show death screen
+        playerHealth.currentHealth = playerHealth.maxHealth;
+        playerHealth.isDead = false;
+        playerHealth.endingGame = false;
+        var asyncLoadLevel = SceneManager.LoadSceneAsync("Intro", LoadSceneMode.Single);
+        while (!asyncLoadLevel.isDone)
+        {
+            yield return null;
+        }
+        intro = true;
+        StartLevel();
+        StartCoroutine(WaitToContinue(introLength));
     }
 }
