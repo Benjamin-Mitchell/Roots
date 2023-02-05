@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     private PlayerController playerHealth;
     public Slider playerHealthSlider;
 
+    public CircleWipe circleWipe;
+
 	// Start is called before the first frame update
 	private void Awake()
 	{
@@ -63,16 +65,22 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(playerHealth == null)
+        {
+            return;
+        }
         playerHealthSlider.value = (float)playerHealth.currentHealth / (float)playerHealth.maxHealth;
 
         if (playerHealth.isDead)
         {
+            playerHealth.isDead = false;
             StartCoroutine(Restart());
         }
     }
 
     void StartLevel()
 	{
+        circleWipe.OpenBlackScreen();
         GameObject spawn = GameObject.Find("Start");
         playerController.enabled = false;
         player.transform.position = spawn.transform.position;
@@ -107,6 +115,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadLevel(string sceneName, int index)
     {
+        circleWipe.CloseBlackScreen();
+        yield return new WaitForSeconds(2);
         var asyncLoadLevel = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         while (!asyncLoadLevel.isDone)
         {
@@ -120,6 +130,8 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Restart()
     {
+        circleWipe.CloseBlackScreen();
+        yield return new WaitForSeconds(2);
         //Todo: Show death screen
         playerHealth.currentHealth = playerHealth.maxHealth;
         playerHealth.isDead = false;
@@ -136,6 +148,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadBossLevel(string sceneName)
     {
+        circleWipe.CloseBlackScreen();
+        yield return new WaitForSeconds(2);
         var asyncLoadLevel = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         while (!asyncLoadLevel.isDone)
         {

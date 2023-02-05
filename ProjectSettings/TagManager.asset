@@ -10,6 +10,7 @@ TagManager:
   - EnemySpawnLocation
   - Wall
   - EnemyProjectile
+  - ScreenFade
   layers:
   - Default
   - TransparentFX

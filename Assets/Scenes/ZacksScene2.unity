@@ -861,6 +861,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6305101405633793153, guid: 8b4822f34e54085428c8b66c4070db42,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6305101405633793215, guid: 8b4822f34e54085428c8b66c4070db42,
         type: 3}
       propertyPath: m_RootOrder
@@ -915,11 +920,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6328036624872861195, guid: 8b4822f34e54085428c8b66c4070db42,
-        type: 3}
-      propertyPath: minDistance
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b4822f34e54085428c8b66c4070db42, type: 3}
@@ -7766,6 +7766,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RangedEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6305101405633793153, guid: 21e82254a08db6f46aef4d92a1d469e0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6305101405633793215, guid: 21e82254a08db6f46aef4d92a1d469e0,
         type: 3}
