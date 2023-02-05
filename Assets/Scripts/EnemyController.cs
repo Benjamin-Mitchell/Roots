@@ -86,15 +86,13 @@ public class EnemyController : Character
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-<<<<<<< HEAD
-=======
+
         if (!knockback)
         {
             if (!playerInSightRange && !playerInAttackRange) Patrolling();
             if (playerInSightRange && !playerInAttackRange) ChasePlayer();
             if (playerInAttackRange && playerInSightRange) AttackPlayer();
         }
->>>>>>> cd66af343fca24c8c6e84f3dc7563a43335862a9
         if (playerHealth.endingGame && !isFinished)
         {
             isFinished = true;

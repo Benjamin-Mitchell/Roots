@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 7214805880311436571}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1772240223559277300
+--- !u!1 &6828855873786537586
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8343219162121145509}
+  - component: {fileID: 4310632694494325835}
   m_Layer: 7
   m_Name: ProjectileSpawn
   m_TagString: Untagged
@@ -47,13 +47,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8343219162121145509
+--- !u!4 &4310632694494325835
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772240223559277300}
+  m_GameObject: {fileID: 6828855873786537586}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.25, y: 0.25, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -205,11 +205,8 @@ Transform:
   - {fileID: 7181722729369234507}
   - {fileID: 1695031174748774144}
   - {fileID: 1590132469}
-<<<<<<< HEAD
-  - {fileID: 8343219162121145509}
-=======
   - {fileID: 7214805879203620354}
->>>>>>> cd66af343fca24c8c6e84f3dc7563a43335862a9
+  - {fileID: 4310632694494325835}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -397,7 +394,7 @@ PrefabInstance:
         type: 3}
       propertyPath: startPos
       value: 
-      objectReference: {fileID: 8343219162121145509}
+      objectReference: {fileID: 4310632694494325835}
     - target: {fileID: 8333302426286923470, guid: 363be1377701a354a98043e6eee7f34c,
         type: 3}
       propertyPath: attackTime
