@@ -23,7 +23,7 @@ public class ProjectileLauncher : Weapon
     {
         if (isAttacking) return; 
         isAttacking = true;
-        GameObject ball = Instantiate(projectile, transform.position, player.rotation);
+        GameObject ball = Instantiate(projectile, transform.position, Quaternion.FromToRotation(transform.position, player.position));
 
         Vector3 playerVelocity = Vector3.zero;
         if (aimAtPLayer) playerVelocity = playerController.velocity;
