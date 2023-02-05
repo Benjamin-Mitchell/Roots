@@ -213,7 +213,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Armature|ArmatureAction_001
+  m_Name: RESET
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -701,7 +701,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 5159878180682999813}
-    m_Position: {x: 340, y: 180, z: 0}
+    m_Position: {x: 330, y: 270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7005788682826356614}
     m_Position: {x: 280, y: -10, z: 0}
@@ -719,7 +719,7 @@ AnimatorStateMachine:
     m_Position: {x: 790, y: 500, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4418294821218357061}
-    m_Position: {x: 220, y: 120, z: 0}
+    m_Position: {x: 260, y: 110, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -3521515641275771277}
