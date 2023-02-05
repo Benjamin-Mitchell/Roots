@@ -18,7 +18,6 @@ public class EnemyController : Character
     public float sightRange, attackRange;
     private bool playerInSightRange, playerInAttackRange; 
 
-    private int currentHealth;
     private Rigidbody rb;
     public Weapon weapon;
     public float minDistance =2f;
@@ -26,12 +25,14 @@ public class EnemyController : Character
     private bool canAttack;
 
     private RoomGenerator roomGenerator;
+    private PlayerController playerHealth;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         currentHealth = maxHealth;
     }
 
@@ -59,7 +60,14 @@ public class EnemyController : Character
 
     public override void PerformAttack()
     {
-        weapon.PerformAttack(player.position);
+        if (!playerHealth.endingGame)
+        {
+            weapon.PerformAttack(player.position);
+        }
+        else
+        {
+            //ToDo: Add enemy cheer animation
+        }
     }
 
     private void OnDrawGizmosSelected()

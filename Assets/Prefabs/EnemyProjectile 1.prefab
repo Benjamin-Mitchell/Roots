@@ -115,7 +115,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 5
   enemyTag: Player
-  playerTag: Enemy
+  impactParticles: {fileID: 7899979060702944891, guid: 4645b6c1a14001f48a24983691a000c6,
+    type: 3}
 --- !u!54 &7978641093715862680
 Rigidbody:
   m_ObjectHideFlags: 0

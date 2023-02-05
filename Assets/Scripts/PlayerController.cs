@@ -29,7 +29,6 @@ public class PlayerController : Character
 
 
     private Camera mainCamera;
-    private int currentHealth;
     public float rotateSpeed;
 
     public Transform heightForSpawn;
@@ -40,6 +39,8 @@ public class PlayerController : Character
     bool canDash = true;
 
     public float meleeSpeed = 3f;
+    public bool isDead;
+    public bool endingGame;
     private void Awake()
 	{
         GameObject[] objs = GameObject.FindGameObjectsWithTag("Player");
@@ -73,9 +74,13 @@ public class PlayerController : Character
     {
         bool isMoving = Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0;
 
-        if (!isMoving)
+        if (!isMoving || endingGame)
         {
             controller.Move(new Vector3(0, 0, 0));
+            if(endingGame)
+            {
+                return;
+            }
         }
 
         if (Input.GetButton("Jump") && canDash)
@@ -131,9 +136,9 @@ public class PlayerController : Character
 
     public override void TakeDamage(int amount)
     {
-        if (dashing) return;
+        if (dashing || endingGame) return;
         currentHealth -= amount;
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
             Die();
         }
@@ -170,10 +175,21 @@ public class PlayerController : Character
 
     public override void Die()
     {
-        //Die
+        endingGame = true;
+        StartCoroutine(DeathAnimation());
+
+        //Todo: Death animation
+        //isDead = true;
     }
 
-    private IEnumerator DashCorutine()
+    private IEnumerator DeathAnimation()
+    {
+
+        yield return new WaitForSeconds(2f);
+        isDead = true;
+    }
+
+        private IEnumerator DashCorutine()
     {
         dashing = true;
         canDash = false;

@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  currentHealth: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
@@ -93,7 +94,7 @@ MonoBehaviour:
   sightRange: 5
   attackRange: 0.8
   weapon: {fileID: 4012195243636650376}
-  minDistance: 1.5
+  minDistance: 0.5
 --- !u!195 &1855279809
 NavMeshAgent:
   m_ObjectHideFlags: 0
