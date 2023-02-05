@@ -10,10 +10,13 @@ public class FightStartSignaller : MonoBehaviour
 
     public GameObject[] toDisableNav;
 
+    private BoxCollider col;
+
     // Start is called before the first frame update
     void Start()
     {
         boss = GameObject.Find("Boss").GetComponent<Boss>();
+        col = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -32,6 +35,8 @@ public class FightStartSignaller : MonoBehaviour
 			}
             boss.StartTheFight();
             StartCoroutine(SmoothLerp(2.0f));
+
+            col.enabled = false;
         }
     }
 
