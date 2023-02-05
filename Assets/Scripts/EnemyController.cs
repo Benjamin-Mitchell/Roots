@@ -182,6 +182,9 @@ public class EnemyController : Character
 
     public override void Die()
     {
+        Instantiate(deathParticles, transform.position, transform.rotation); 
+        anim.SetTrigger("IsDead");
+        anim.SetBool("IsDying", true);
         isDead = true;
         if (roomGenerator != null)
         {
@@ -192,9 +195,7 @@ public class EnemyController : Character
 
     private IEnumerator DeathAnimation()
     {
-        anim.SetTrigger("IsDead");
-        yield return new WaitForSeconds(0.5f);
-        Instantiate(deathParticles, transform.position, transform.rotation);
+        
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
