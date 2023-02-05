@@ -105,6 +105,7 @@ public class PlayerController : Character
 
         if (Input.GetButton("Jump") && canDash)
         {
+            anim.SetTrigger("Dash");
             StartCoroutine(nameof(DashCorutine));
         }
 
