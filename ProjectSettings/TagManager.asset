@@ -9,6 +9,10 @@ TagManager:
   - Nav
   - EnemySpawnLocation
   - Wall
+  - EnemyProjectile
+  - ScreenFade
+  - UICanvas
+  - DeathFloor
   layers:
   - Default
   - TransparentFX
@@ -20,7 +24,7 @@ TagManager:
   - Player
   - GameManager
   - NotNavigable
-  - 
+  - EnemyProjectile
   - 
   - 
   - 

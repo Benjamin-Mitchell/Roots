@@ -18,7 +18,6 @@ public class EnemyController : Character
     public float sightRange, attackRange;
     private bool playerInSightRange, playerInAttackRange; 
 
-    private int currentHealth;
     private Rigidbody rb;
     public Weapon weapon;
     public float minDistance =2f;
@@ -26,18 +25,31 @@ public class EnemyController : Character
     private bool canAttack;
 
     private RoomGenerator roomGenerator;
+    private PlayerController playerHealth;
+    public Animator anim;
+    public bool isRanged;
+    private bool isFinished;
 
+    public GameObject chefHat;
+    private bool isDead;
+    public GameObject deathParticles;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         player = GameObject.FindWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         currentHealth = maxHealth;
     }
 
     private void Start()
     {
         StartCoroutine(nameof(AttackStartup));
+        var randomHatProb = Random.Range(0, 2);
+        if(randomHatProb == 1)
+        {
+            chefHat.SetActive(false);
+        }
     }
 
     private IEnumerator AttackStartup()
@@ -54,12 +66,35 @@ public class EnemyController : Character
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
-    }
 
+        if (playerHealth.endingGame && !isFinished)
+        {
+            isFinished = true;
+            anim.SetBool("Finished", true);
+        }
+    }
 
     public override void PerformAttack()
     {
-        weapon.PerformAttack(player.position);
+        if (!playerHealth.endingGame)
+        {
+            if (!weapon.isAttacking)
+            {
+                if (isRanged)
+                {
+                    anim.SetTrigger("Throw");
+                }
+                else
+                {
+                    anim.SetTrigger("Hit");
+                }
+            }
+            weapon.PerformAttack(player.position);
+        }
+        else
+        {
+            //ToDo: Add enemy cheer animation
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -70,6 +105,7 @@ public class EnemyController : Character
 
     private void Patrolling()
     {
+        anim.SetFloat("Speed", 1f);
         if (!walkPointSet) SearchWalkPoint();
 
         if(walkPointSet)
@@ -88,7 +124,7 @@ public class EnemyController : Character
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z);
+        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
         if(Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
         {
@@ -98,6 +134,7 @@ public class EnemyController : Character
 
     private void ChasePlayer()
     {
+        anim.SetFloat("Speed", 1f);
         agent.SetDestination(player.position);
         transform.LookAt(player);
     }
@@ -105,6 +142,7 @@ public class EnemyController : Character
     {
         if (!alreadyAttacked && canAttack)
         {
+            anim.SetFloat("Speed", 0f);
             PerformAttack();
 
             alreadyAttacked = true;
@@ -118,6 +156,7 @@ public class EnemyController : Character
         else
         {
             agent.velocity = Vector3.zero;
+            transform.LookAt(player);
         }
     }
 
@@ -128,6 +167,7 @@ public class EnemyController : Character
 
     public override void TakeDamage(int amount)
     {
+        if (isDead) return;
         currentHealth -= amount;
         if(currentHealth <= 0)
         {
@@ -142,10 +182,21 @@ public class EnemyController : Character
 
     public override void Die()
     {
+        Instantiate(deathParticles, transform.position, transform.rotation); 
+        anim.SetTrigger("IsDead");
+        anim.SetBool("IsDying", true);
+        isDead = true;
         if (roomGenerator != null)
         {
             roomGenerator.aliveEnemies.Remove(this);
         }
+        StartCoroutine(DeathAnimation());
+    }
+
+    private IEnumerator DeathAnimation()
+    {
+        
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 

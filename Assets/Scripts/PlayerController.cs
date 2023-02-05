@@ -29,7 +29,6 @@ public class PlayerController : Character
 
 
     private Camera mainCamera;
-    private int currentHealth;
     public float rotateSpeed;
 
     public Transform heightForSpawn;
@@ -40,6 +39,9 @@ public class PlayerController : Character
     bool canDash = true;
 
     public float meleeSpeed = 3f;
+    public bool isDead;
+    public bool endingGame;
+    public bool resetGame;
     private void Awake()
 	{
         GameObject[] objs = GameObject.FindGameObjectsWithTag("Player");
@@ -59,6 +61,8 @@ public class PlayerController : Character
         mainCamera = FindObjectOfType<Camera>();
         lastRotation = transform.rotation;
         currentHealth = maxHealth;
+
+       
     }
 
     // plane degined by p (p.xyz must be normalized)
@@ -69,30 +73,58 @@ public class PlayerController : Character
         //return -(dot(ro, p.xyz) + p.w) / dot(rd, p.xyz);
     }
 
+
     private void Update()
     {
+        if (resetGame)
+        {
+            if(transform.position.y < -0.9f)
+            {
+                transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
+            }
+            resetGame = false;
+            anim.SetTrigger("Respawn");
+        }
+
+        if (transform.position.y < -0.9f && !endingGame && hasMoved)
+        {
+            currentHealth = 0;
+            Die();
+        }
+
         bool isMoving = Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0;
 
-        if (!isMoving)
+        if (!isMoving || endingGame)
         {
             controller.Move(new Vector3(0, 0, 0));
+            if(endingGame)
+            {
+                return;
+            }
         }
 
         if (Input.GetButton("Jump") && canDash)
         {
+            anim.SetTrigger("Dash");
             StartCoroutine(nameof(DashCorutine));
         }
 
-        moveDirection = (mainCamera.transform.forward * Input.GetAxis("Vertical")) + (mainCamera.transform.right * Input.GetAxis("Horizontal"));
-        moveDirection = moveDirection.normalized * (dashing ? dashSpeed : (meleeWeapon.isAttacking ? meleeSpeed : moveSpeed));
+        Vector3 forwardVec = new Vector3(mainCamera.transform.forward.x, 0.0f, mainCamera.transform.forward.z);
+        moveDirection = (forwardVec * Input.GetAxis("Vertical")) + (mainCamera.transform.right * Input.GetAxis("Horizontal"));
 
+        moveDirection = moveDirection.normalized * (dashing ? dashSpeed : (Input.GetKey(KeyCode.Mouse0) ? meleeSpeed : moveSpeed));
 
         moveDirection.y = Physics.gravity.y * gravityScale;
         var movingVelocity = isMoving ? (moveDirection * Time.deltaTime) : new Vector3(0, 0, 0);
         controller.Move(movingVelocity);
 
 
-        anim.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal"))));
+        var val = (Mathf.Abs(Input.GetAxis("Vertical")) + Mathf.Abs(Input.GetAxis("Horizontal")));
+        if(!Input.GetKey(KeyCode.Mouse0))
+        {
+            val *= 10;
+        }
+        anim.SetFloat("Speed", val);
 
         if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
         {
@@ -126,9 +158,9 @@ public class PlayerController : Character
 
     public override void TakeDamage(int amount)
     {
-        if (dashing) return;
+        if (dashing || endingGame) return;
         currentHealth -= amount;
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
             Die();
         }
@@ -165,10 +197,22 @@ public class PlayerController : Character
 
     public override void Die()
     {
-        //Die
+        endingGame = true;
+        hasMoved = false;
+        StartCoroutine(DeathAnimation());
+
+        //Todo: Death animation
+        //isDead = true;
     }
 
-    private IEnumerator DashCorutine()
+    private IEnumerator DeathAnimation()
+    {
+        anim.SetTrigger("IsDead");
+        yield return new WaitForSeconds(2f);
+        isDead = true;
+    }
+
+        private IEnumerator DashCorutine()
     {
         dashing = true;
         canDash = false;
