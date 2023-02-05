@@ -33,6 +33,17 @@ public class EnemyController : Character
     public GameObject chefHat;
     private bool isDead;
     public GameObject deathParticles;
+
+    public Renderer renderer;
+
+    bool knockback = false;
+    Vector3 knockbackDirection;
+
+    public float knockbackAmount = 8.0f;
+    float initialSpeed;
+    float initialAngularSpeed;
+    float initialAcceleration;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -40,6 +51,9 @@ public class EnemyController : Character
         agent = GetComponent<NavMeshAgent>();
         playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         currentHealth = maxHealth;
+        initialSpeed = agent.speed;
+        initialAngularSpeed = agent.angularSpeed;
+        initialAcceleration = agent.acceleration;
     }
 
     private void Start()
@@ -52,7 +66,16 @@ public class EnemyController : Character
         }
     }
 
-    private IEnumerator AttackStartup()
+	private void FixedUpdate()
+	{
+		if(knockback)
+		{
+            agent.velocity = knockbackDirection * knockbackAmount;
+
+        }
+	}
+
+	private IEnumerator AttackStartup()
     {
         yield return new WaitForSeconds(2);
         canAttack = true;
@@ -63,6 +86,15 @@ public class EnemyController : Character
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
+<<<<<<< HEAD
+=======
+        if (!knockback)
+        {
+            if (!playerInSightRange && !playerInAttackRange) Patrolling();
+            if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+            if (playerInAttackRange && playerInSightRange) AttackPlayer();
+        }
+>>>>>>> cd66af343fca24c8c6e84f3dc7563a43335862a9
         if (playerHealth.endingGame && !isFinished)
         {
             isFinished = true;
@@ -200,9 +232,41 @@ public class EnemyController : Character
 
     public override void Knockback(Vector3 direction)
     {
+        knockbackDirection = -direction;
+        //flash white
+        StartCoroutine(ChangeColourOfMaterial(2.0f));
+        StartCoroutine(DoKnockback(0.25f));
         //var force = (direction.normalized * 10) + Vector3.up * 120;
         ////var force = new Vector3(0, 10, 10);
         //rb.AddForce(force, ForceMode.Impulse);
+    }
+
+    private IEnumerator DoKnockback(float time) 
+	{
+        knockback = true;
+
+        agent.speed = 100.0f;
+        agent.angularSpeed = 0.0f;
+        agent.acceleration = 100.0f;
+
+        yield return new WaitForSeconds(time);
+
+        knockback = false;
+        agent.speed = initialSpeed;
+        agent.angularSpeed = initialAngularSpeed;
+        agent.acceleration = initialAcceleration;
+	}
+
+    private IEnumerator ChangeColourOfMaterial(float time)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < time)
+        {
+            renderer.material.SetColor("_BaseColor", Color.Lerp(Color.red, Color.white, (elapsedTime / time)));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
     }
 
 }
