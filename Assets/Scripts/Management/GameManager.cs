@@ -36,20 +36,16 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
-        Debug.Log("Initialy adding scenes"+ gameObject.name);
         AddScenes();
     }
 
     private void AddScenes()
     {
-        Debug.Log("Adding scenes, we currenty have: " + scenes.Count);
         scenes = new List<string>();
-        Debug.Log("cleared: count " + scenes.Count);
         for (int i = 0; i < numScenes; i++)
         {
             scenes.Add("Level" + i.ToString());
         }
-        Debug.Log("Finished adding scenes: " + scenes.Count);
         playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
@@ -148,7 +144,6 @@ public class GameManager : MonoBehaviour
         intro = true;
         StartLevel();
         StartCoroutine(WaitToContinue(introLength));
-        Debug.Log("Restarting, adding scenes! ");
         AddScenes();
     }
 
