@@ -15,6 +15,10 @@ public class BossHelper : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        Debug.Log(player.gameObject.name);
+        GameObject start = GameObject.Find("Start");
+        Debug.Log(start.name);
+        player.transform.position = start.transform.position;
         circleWipe.OpenBlackScreen();
     }
 
