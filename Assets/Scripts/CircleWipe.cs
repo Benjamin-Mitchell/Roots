@@ -9,8 +9,36 @@ public class CircleWipe : MonoBehaviour
     private Canvas _canvas;
     private Image _blackScreen;
 
+    public int canvasPriority = 0;
+
     private void Awake()
     {
+        //make it a basic singleton
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("UICanvas");
+
+        if (objs.Length > 1)
+        {
+            for(int i = 0; i < objs.Length; i++)
+			{
+                if (objs[i] != this.gameObject)
+                {
+                    //if mine is higher, destroy them. otherwise, destroy me.
+                    if (canvasPriority > objs[i].GetComponent<CircleWipe>().canvasPriority)
+                    {
+                        Debug.Log("Destroying theirs");
+                        Destroy(objs[i]);
+                    }
+                    else
+                    {
+                        Debug.Log("Destroying ours");
+                        Destroy(this.gameObject);
+                    }
+                }
+			}
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+
         _canvas = GetComponent<Canvas>();
         var images = GetComponentsInChildren<Image>();
         _blackScreen = images.First(i => i.tag == "ScreenFade");
