@@ -24,6 +24,8 @@ public class Shurikan : MonoBehaviour
 
         if(other.tag == "Wall" || other.tag == enemyTag)
         {
+
+            //Todo: check if is going in direction of wall - else ignore
             DestroyShurikan();
         }
     }

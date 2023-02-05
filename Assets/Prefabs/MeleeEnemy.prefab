@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6305101405633793215
 Transform:
   m_ObjectHideFlags: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   timeBetweenAttacks: 0.5
-  sightRange: 6
+  sightRange: 8
   attackRange: 0.8
   weapon: {fileID: 336592679}
   minDistance: 0.8
@@ -262,6 +262,7 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 128
+  slash: {fileID: 0}
 --- !u!1001 &2919721219001045167
 PrefabInstance:
   m_ObjectHideFlags: 0
