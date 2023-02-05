@@ -86,6 +86,7 @@ public class EnemyController : Character
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
+
         if (!knockback)
         {
             if (!playerInSightRange && !playerInAttackRange) Patrolling();
@@ -96,13 +97,20 @@ public class EnemyController : Character
         {
             isFinished = true;
             anim.SetBool("Finished", true);
+            agent.velocity = Vector3.zero;
+            transform.LookAt(player);
+
+        }
+        else
+        {
+            if (!playerInSightRange && !playerInAttackRange) Patrolling();
+            if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+            if (playerInAttackRange && playerInSightRange) AttackPlayer();
         }
     }
 
     public override void PerformAttack()
     {
-        if (!playerHealth.endingGame)
-        {
             if (!weapon.isAttacking)
             {
                 if (isRanged)
@@ -115,11 +123,6 @@ public class EnemyController : Character
                 }
             }
             weapon.PerformAttack(player.position);
-        }
-        else
-        {
-            //ToDo: Add enemy cheer animation
-        }
     }
 
     private void OnDrawGizmosSelected()
