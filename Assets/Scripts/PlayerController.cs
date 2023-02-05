@@ -42,6 +42,9 @@ public class PlayerController : Character
     public bool isDead;
     public bool endingGame;
     public bool resetGame;
+
+    
+    public GameObject attackPoint;
     private void Awake()
 	{
         GameObject[] objs = GameObject.FindGameObjectsWithTag("Player");
@@ -174,10 +177,17 @@ public class PlayerController : Character
 
         Vector3 hitPoint = ray.origin + ray.direction * t;
         var mouseDistance = Vector3.Distance(hitPoint, transform.position);
+
+        var hitPointNoY = new Vector3(hitPoint.x, transform.position.y, hitPoint.z);
+        var unitLookDirection = (hitPointNoY - transform.position).normalized;
+
+        float range = 1.0f;
+        attackPoint.transform.position = transform.position + unitLookDirection * range;
+        //var lookDirection = 
  
         if(mouseDistance > 0.5f)
         {
-            transform.LookAt(hitPoint, Vector3.up);
+            transform.LookAt(hitPointNoY, Vector3.up);
         }
         lastRotation = transform.rotation;
 

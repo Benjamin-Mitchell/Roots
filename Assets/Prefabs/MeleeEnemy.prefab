@@ -99,6 +99,7 @@ MonoBehaviour:
   chefHat: {fileID: 8616142571902141583}
   deathParticles: {fileID: 6512062054699240410, guid: 7348765acb713b547a4fcf1c53967b7c,
     type: 3}
+  renderer: {fileID: 3076881785067700608}
 --- !u!195 &1855279809
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -262,6 +263,7 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 128
+  slash: {fileID: 0}
 --- !u!1001 &2919721219001045167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -339,6 +341,12 @@ PrefabInstance:
 --- !u!4 &1384972613384429789 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4918907452783185806, guid: 1dd2614e45519794986221b54c551bf2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2919721219001045167}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3076881785067700608 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -9063589543538667217, guid: 1dd2614e45519794986221b54c551bf2,
     type: 3}
   m_PrefabInstance: {fileID: 2919721219001045167}
   m_PrefabAsset: {fileID: 0}
