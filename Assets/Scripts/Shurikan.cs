@@ -19,6 +19,8 @@ public class Shurikan : MonoBehaviour
     {
         if(other.tag == enemyTag)
         {
+            var direction = other.transform.position - transform.position;
+            other.GetComponent<Character>().Knockback(direction);
             other.GetComponent<Character>().TakeDamage(damage);
         }
 
