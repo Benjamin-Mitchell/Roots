@@ -25,12 +25,10 @@ public class CircleWipe : MonoBehaviour
                     //if mine is higher, destroy them. otherwise, destroy me.
                     if (canvasPriority > objs[i].GetComponent<CircleWipe>().canvasPriority)
                     {
-                        Debug.Log("Destroying theirs");
                         Destroy(objs[i]);
                     }
                     else
                     {
-                        Debug.Log("Destroying ours");
                         Destroy(this.gameObject);
                     }
                 }

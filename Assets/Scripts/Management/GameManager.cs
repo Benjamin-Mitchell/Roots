@@ -36,16 +36,20 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+        Debug.Log("Initialy adding scenes"+ gameObject.name);
         AddScenes();
     }
 
     private void AddScenes()
     {
+        Debug.Log("Adding scenes, we currenty have: " + scenes.Count);
         scenes = new List<string>();
+        Debug.Log("cleared: count " + scenes.Count);
         for (int i = 0; i < numScenes; i++)
         {
             scenes.Add("Level" + i.ToString());
         }
+        Debug.Log("Finished adding scenes: " + scenes.Count);
         playerHealth = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
@@ -80,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     void StartLevel()
 	{
-        circleWipe.OpenBlackScreen();
+        circleWipe?.OpenBlackScreen();
         GameObject spawn = GameObject.Find("Start");
         playerController.enabled = false;
         player.transform.position = spawn.transform.position;
@@ -115,7 +119,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadLevel(string sceneName, int index)
     {
-        circleWipe.CloseBlackScreen();
+        circleWipe?.CloseBlackScreen();
         yield return new WaitForSeconds(2);
         var asyncLoadLevel = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         while (!asyncLoadLevel.isDone)
@@ -130,7 +134,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Restart()
     {
-        circleWipe.CloseBlackScreen();
+        circleWipe?.CloseBlackScreen();
         yield return new WaitForSeconds(2);
         //Todo: Show death screen
         playerHealth.currentHealth = playerHealth.maxHealth;
@@ -144,11 +148,13 @@ public class GameManager : MonoBehaviour
         intro = true;
         StartLevel();
         StartCoroutine(WaitToContinue(introLength));
+        Debug.Log("Restarting, adding scenes! ");
+        AddScenes();
     }
 
     private IEnumerator LoadBossLevel(string sceneName)
     {
-        circleWipe.CloseBlackScreen();
+        circleWipe?.CloseBlackScreen();
         yield return new WaitForSeconds(2);
         var asyncLoadLevel = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         while (!asyncLoadLevel.isDone)
