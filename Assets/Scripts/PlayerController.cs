@@ -41,6 +41,7 @@ public class PlayerController : Character
     public float meleeSpeed = 3f;
     public bool isDead;
     public bool endingGame;
+    public bool resetGame;
     private void Awake()
 	{
         GameObject[] objs = GameObject.FindGameObjectsWithTag("Player");
@@ -60,6 +61,8 @@ public class PlayerController : Character
         mainCamera = FindObjectOfType<Camera>();
         lastRotation = transform.rotation;
         currentHealth = maxHealth;
+
+       
     }
 
     // plane degined by p (p.xyz must be normalized)
@@ -72,6 +75,12 @@ public class PlayerController : Character
 
     private void Update()
     {
+        if (resetGame)
+        {
+            resetGame = false;
+            anim.SetTrigger("Respawn");
+        }
+
         bool isMoving = Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0;
 
         if (!isMoving || endingGame)
@@ -184,7 +193,7 @@ public class PlayerController : Character
 
     private IEnumerator DeathAnimation()
     {
-
+        anim.SetTrigger("IsDead");
         yield return new WaitForSeconds(2f);
         isDead = true;
     }
