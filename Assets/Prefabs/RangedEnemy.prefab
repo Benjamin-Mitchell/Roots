@@ -120,6 +120,8 @@ MonoBehaviour:
   anim: {fileID: 1618449447}
   isRanged: 0
   chefHat: {fileID: 4138703934464162426}
+  deathParticles: {fileID: 919132149155446097, guid: 7c5bba62a9195bd4b92fcb542eff0444,
+    type: 3}
 --- !u!1001 &1383766159
 PrefabInstance:
   m_ObjectHideFlags: 0
