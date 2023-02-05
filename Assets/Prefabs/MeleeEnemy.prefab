@@ -97,7 +97,7 @@ MonoBehaviour:
   anim: {fileID: 5274777907579804926}
   isRanged: 0
   chefHat: {fileID: 8616142571902141583}
-  deathParticles: {fileID: 919132149155446097, guid: 7c5bba62a9195bd4b92fcb542eff0444,
+  deathParticles: {fileID: 6512062054699240410, guid: 7348765acb713b547a4fcf1c53967b7c,
     type: 3}
 --- !u!195 &1855279809
 NavMeshAgent:
