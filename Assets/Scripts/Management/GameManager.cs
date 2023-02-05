@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
 	{
         if(scenes.Count == 0)
 		{
-            Debug.Log("YOU WIN");
+            StartCoroutine(LoadBossLevel("BossLevel0"));
             return false;
 		}
         int index = Random.Range(0, scenes.Count);
@@ -101,5 +101,14 @@ public class GameManager : MonoBehaviour
         scenes.RemoveAt(index);
         StartLevel();
         //LoadScene?.Invoke(newSceneName);
+    }
+
+    private IEnumerator LoadBossLevel(string sceneName)
+    {
+        var asyncLoadLevel = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        while (!asyncLoadLevel.isDone)
+        {
+            yield return null;
+        }
     }
 }
