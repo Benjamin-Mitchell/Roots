@@ -34,13 +34,15 @@ public class Boss : Character
     private GameObject player;
     private PlayerController playerController;
 
-    public Slider bossHealthSlider;
+    private Slider bossHealthSlider;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
+        bossHealthSlider = GameObject.Find("GameManager").GetComponent<GameManager>().bossHealthSlider;
+        bossHealthSlider.value = maxHealth;
     }
 
     // Update is called once per frame

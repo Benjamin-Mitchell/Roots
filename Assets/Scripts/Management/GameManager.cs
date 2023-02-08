@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +26,15 @@ public class GameManager : MonoBehaviour
     public CircleWipe circleWipe;
 
     private bool destroyThis;
+
+
+    public GameObject BossHealthBar;
+    public TextMeshProUGUI bossText;
+    public Slider bossHealthSlider;
+    public Image bossHealthBackground;
+    public Image bossHealthFill;
+
+    private Color textColor, fillColor, sliderColor, backgroundColor;
 
     // Start is called before the first frame update
     private void Awake()
@@ -66,6 +76,38 @@ public class GameManager : MonoBehaviour
 		{
             StartCoroutine(WaitToContinue(introLength));
 		}
+
+        textColor = bossText.color;
+        fillColor = bossHealthFill.color;
+        sliderColor = bossHealthSlider.colors.normalColor;
+        backgroundColor = bossHealthBackground.color;
+    }
+
+    public void StartBoss()
+    {
+        BossHealthBar.SetActive(true);
+        StartCoroutine(LerpUIColours(2.0f));
+    }
+
+
+    private IEnumerator LerpUIColours(float time)
+    {
+        float elapsedTime = 0;
+        while (elapsedTime < time)
+        {
+            bossText.color = Color.Lerp(Color.clear, textColor, (elapsedTime / time));
+
+            bossHealthFill.color = Color.Lerp(Color.clear, fillColor, (elapsedTime / time));
+
+            var block = bossHealthSlider.colors;
+            block.normalColor = Color.Lerp(Color.clear, sliderColor, (elapsedTime / time));
+            bossHealthSlider.colors = block;
+
+            bossHealthBackground.color = Color.Lerp(Color.clear, backgroundColor, (elapsedTime / time));
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
     }
 
     // Update is called once per frame
@@ -130,6 +172,7 @@ public class GameManager : MonoBehaviour
         }
 
         scenes.RemoveAt(index);
+        BossHealthBar.SetActive(false);
         StartLevel();
         //LoadScene?.Invoke(newSceneName);
     }
@@ -148,6 +191,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         intro = true;
+        BossHealthBar.SetActive(false);
         StartLevel();
         StartCoroutine(WaitToContinue(introLength));
         playerHealth.resetGame = true;
@@ -163,5 +207,8 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
+
+        StartLevel();
+        playerHealth.currentHealth = playerHealth.maxHealth;
     }
 }

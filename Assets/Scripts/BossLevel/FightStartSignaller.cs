@@ -11,27 +11,17 @@ public class FightStartSignaller : MonoBehaviour
     public Transform finalPos;
 
     public GameObject[] toDisableNav;
-    
-    public GameObject BossHealthBar;
-    public TextMeshProUGUI bossText;
-    public Slider bossHealthSlider;
-    public Image bossHealthBackground;
-    public Image bossHealthFill;
-
-    private Color textColor, fillColor, sliderColor, backgroundColor;
 
     private BoxCollider col;
-
+    private GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
         boss = GameObject.Find("Boss").GetComponent<Boss>();
         col = GetComponent<BoxCollider>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        textColor = bossText.color;
-        fillColor = bossHealthFill.color;
-        sliderColor = bossHealthSlider.colors.normalColor;
-        backgroundColor = bossHealthBackground.color;
+
     }
 
     // Update is called once per frame
@@ -40,11 +30,13 @@ public class FightStartSignaller : MonoBehaviour
 
     }
 
+    private bool started;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && !started)
         {
-            for(int i = 0; i < toDisableNav.Length; i++)
+            started = true;
+            for (int i = 0; i < toDisableNav.Length; i++)
 			{
                 toDisableNav[i].layer = LayerMask.NameToLayer("NotNavigable");
 			}
@@ -52,30 +44,10 @@ public class FightStartSignaller : MonoBehaviour
             StartCoroutine(SmoothLerp(2.0f));
 
             col.enabled = false;
-            BossHealthBar.SetActive(true);
-            StartCoroutine(LerpUIColours(2.0f));
+            gameManager.StartBoss();
         }
     }
 
-    private IEnumerator LerpUIColours(float time)
-    {
-        float elapsedTime = 0;
-        while (elapsedTime < time)
-        {
-            bossText.color = Color.Lerp(Color.clear, textColor, (elapsedTime / time));
-            
-            bossHealthFill.color = Color.Lerp(Color.clear, fillColor, (elapsedTime / time));
-
-            var block = bossHealthSlider.colors;
-            block.normalColor = Color.Lerp(Color.clear, sliderColor, (elapsedTime / time));
-            bossHealthSlider.colors = block;
-
-            bossHealthBackground.color = Color.Lerp(Color.clear, backgroundColor, (elapsedTime / time));
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    }
 
     private IEnumerator SmoothLerp(float time)
 	{
